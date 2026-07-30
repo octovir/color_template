@@ -3,343 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergency Dashboard - Comprehensive Design System</title>
+    <title>Enterprise System - Comprehensive Design System</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { 
-            font-family: 'Google Sans', sans-serif; 
-            background-color: #F8FAFC;
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #F4F4F5;
         }
-        /* Custom scrollbar for better UX */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #D4D4D8; border-radius: 4px; }
+        
+        .tab-active {
+            background-color: #09090B;
+            color: #FFFFFF;
+            border-color: #09090B;
+        }
+        .tab-inactive {
+            background-color: #FFFFFF;
+            color: #71717A;
+            border-color: #E4E4E7;
+        }
+        .tab-inactive:hover {
+            background-color: #F4F4F5;
+            color: #09090B;
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
-<body class="text-[#334155] min-h-screen pb-20 antialiased">
+<body class="text-[#27272A] min-h-screen pb-20 antialiased">
 
-    <header class="bg-white border-b border-[#E2E8F0] px-8 py-4 sticky top-0 z-50 shadow-sm">
+    <!-- Header & Navigation -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-[#E4E4E7] px-8 py-4 sticky top-0 z-50 shadow-sm">
         <div class="max-w-[1400px] mx-auto flex justify-between items-center">
             <div>
-                <h1 class="text-xl font-bold tracking-tight text-[#0F172A] flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-[#E11D48] shadow-[0_0_8px_rgba(225,29,72,0.4)] animate-pulse"></span>
-                    EMERGENCY SYSTEM <span class="font-normal text-[#64748B]">| UX/UI Color Guidelines</span>
+                <h1 class="text-xl font-bold tracking-tight text-[#09090B] flex items-center gap-2">
+                    <span id="header-indicator" class="w-3 h-3 rounded-full bg-[#E11D48] shadow-[0_0_8px_rgba(225,29,72,0.4)] animate-pulse"></span>
+                    <span id="header-title">EMERGENCY SYSTEM</span> 
+                    <span class="font-normal text-[#71717A]">| UX/UI Color Guidelines</span>
                 </h1>
-                <p class="text-[13px] text-[#64748B] mt-1">Click on any swatch to copy the HEX code for your components.</p>
+                <p class="text-[13px] text-[#71717A] mt-1">Click on any swatch to copy the HEX code for your components.</p>
             </div>
-            <span class="text-[11px] bg-[#F8FAFC] border border-[#E2E8F0] text-[#475569] font-medium px-3 py-1.5 rounded-md uppercase tracking-wider">
-                System v3.0
-            </span>
+            
+            <!-- Tab Buttons -->
+            <div class="flex gap-2 p-1 bg-[#F4F4F5] rounded-lg border border-[#E4E4E7]">
+                <button onclick="switchTab('emergency')" id="tab-emergency" class="px-4 py-2 text-sm font-bold rounded-md transition-all duration-200 tab-active">
+                    Emergency Colors
+                </button>
+                <button onclick="switchTab('risk')" id="tab-risk" class="px-4 py-2 text-sm font-bold rounded-md transition-all duration-200 tab-inactive">
+                    Risk Dashboard
+                </button>
+            </div>
         </div>
     </header>
 
-    <main class="max-w-[1400px] mx-auto px-8 mt-8 grid grid-cols-1 xl:grid-cols-12 gap-8">
+    <main class="max-w-[1400px] mx-auto px-8 mt-8">
         
-        <div class="xl:col-span-8 space-y-10 bg-white p-8 rounded-2xl border border-[#E2E8F0] shadow-sm">
-            
-            <div class="mb-6 border-b border-[#F1F5F9] pb-4">
-                <h2 class="text-lg font-bold text-[#0F172A]">Core Color Scales</h2>
-                <p class="text-sm text-[#64748B] mt-1">Extended palette for backgrounds, borders, and typography.</p>
+        <!-- ========================================== -->
+        <!-- VIEW 1: EMERGENCY SYSTEM (Original Concept) -->
+        <!-- ========================================== -->
+        <div id="view-emergency" class="grid grid-cols-1 xl:grid-cols-12 gap-8 fade-in">
+            <div class="xl:col-span-8 space-y-10 bg-white p-8 rounded-2xl border border-[#E4E4E7] shadow-sm">
+                <div class="mb-6 border-b border-[#F4F4F5] pb-4">
+                    <h2 class="text-lg font-bold text-[#09090B]">Action-Oriented Scales</h2>
+                    <p class="text-sm text-[#71717A] mt-1">Colors optimized for immediate response, alerts, and operational status.</p>
+                </div>
+
+                <!-- Neutral / Base -->
+                <section>
+                    <div class="flex items-center gap-2 mb-3">
+                        <h3 class="text-sm font-bold text-[#09090B] w-24">Neutral</h3>
+                        <p class="text-[11px] text-[#71717A]">Typography, borders, and layouts.</p>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div onclick="copyColor('#FAFAFA')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#FAFAFA] border border-[#E4E4E7] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">50 / BG</span><span class="block text-[10px] font-mono text-[#71717A]">#FAFAFA</span></div></div>
+                        <div onclick="copyColor('#E4E4E7')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#E4E4E7] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">200 / Border</span><span class="block text-[10px] font-mono text-[#71717A]">#E4E4E7</span></div></div>
+                        <div onclick="copyColor('#71717A')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#71717A] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">500 / Muted</span><span class="block text-[10px] font-mono text-[#71717A]">#71717A</span></div></div>
+                        <div onclick="copyColor('#27272A')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#27272A] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">800 / Text</span><span class="block text-[10px] font-mono text-[#71717A]">#27272A</span></div></div>
+                        <div onclick="copyColor('#09090B')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#09090B] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">950 / Headings</span><span class="block text-[10px] font-mono text-[#71717A]">#09090B</span></div></div>
+                    </div>
+                </section>
+
+                <!-- Primary Blue -->
+                <section>
+                    <div class="flex items-center gap-2 mb-3">
+                        <h3 class="text-sm font-bold text-[#2563EB] w-24">Primary</h3>
+                        <p class="text-[11px] text-[#71717A]">Main system actions and verifications.</p>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div onclick="copyColor('#EFF6FF')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#EFF6FF] border border-[#DBEAFE] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">50 / Light</span><span class="block text-[10px] font-mono text-[#71717A]">#EFF6FF</span></div></div>
+                        <div onclick="copyColor('#BFDBFE')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#BFDBFE] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">200 / Focus</span><span class="block text-[10px] font-mono text-[#71717A]">#BFDBFE</span></div></div>
+                        <div onclick="copyColor('#3B82F6')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#3B82F6] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">500 / Base</span><span class="block text-[10px] font-mono text-[#71717A]">#3B82F6</span></div></div>
+                        <div onclick="copyColor('#1D4ED8')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#1D4ED8] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">700 / Hover</span><span class="block text-[10px] font-mono text-[#71717A]">#1D4ED8</span></div></div>
+                        <div onclick="copyColor('#1E3A8A')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#1E3A8A] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">900 / Deep</span><span class="block text-[10px] font-mono text-[#71717A]">#1E3A8A</span></div></div>
+                    </div>
+                </section>
+
+                <!-- Critical Red -->
+                <section>
+                    <div class="flex items-center gap-2 mb-3">
+                        <h3 class="text-sm font-bold text-[#E11D48] w-24">Critical</h3>
+                        <p class="text-[11px] text-[#71717A]">Breaches, lockdown actions, system failures.</p>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div onclick="copyColor('#FFF1F2')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#FFF1F2] border border-[#FFE4E6] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">50 / BG</span><span class="block text-[10px] font-mono text-[#71717A]">#FFF1F2</span></div></div>
+                        <div onclick="copyColor('#FECDD3')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#FECDD3] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">200 / Border</span><span class="block text-[10px] font-mono text-[#71717A]">#FECDD3</span></div></div>
+                        <div onclick="copyColor('#F43F5E')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#F43F5E] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">500 / Indicator</span><span class="block text-[10px] font-mono text-[#71717A]">#F43F5E</span></div></div>
+                        <div onclick="copyColor('#BE123C')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#BE123C] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">700 / Action</span><span class="block text-[10px] font-mono text-[#71717A]">#BE123C</span></div></div>
+                        <div onclick="copyColor('#881337')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#881337] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">900 / Deep</span><span class="block text-[10px] font-mono text-[#71717A]">#881337</span></div></div>
+                    </div>
+                </section>
+                
+                <!-- Safe Green -->
+                <section>
+                    <div class="flex items-center gap-2 mb-3">
+                        <h3 class="text-sm font-bold text-[#10B981] w-24">Operational</h3>
+                        <p class="text-[11px] text-[#71717A]">Systems online, resolved issues.</p>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div onclick="copyColor('#ECFDF5')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#ECFDF5] border border-[#D1FAE5] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">50 / BG</span><span class="block text-[10px] font-mono text-[#71717A]">#ECFDF5</span></div></div>
+                        <div onclick="copyColor('#A7F3D0')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#A7F3D0] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">200 / Border</span><span class="block text-[10px] font-mono text-[#71717A]">#A7F3D0</span></div></div>
+                        <div onclick="copyColor('#10B981')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#10B981] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">500 / Indicator</span><span class="block text-[10px] font-mono text-[#71717A]">#10B981</span></div></div>
+                        <div onclick="copyColor('#047857')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#047857] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">700 / Action</span><span class="block text-[10px] font-mono text-[#71717A]">#047857</span></div></div>
+                        <div onclick="copyColor('#064E3B')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#064E3B] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2 bg-white"><span class="block text-[10px] font-bold">900 / Deep</span><span class="block text-[10px] font-mono text-[#71717A]">#064E3B</span></div></div>
+                    </div>
+                </section>
             </div>
 
-            <section>
-                <div class="flex items-center gap-2 mb-3">
-                    <h3 class="text-sm font-bold text-[#0F172A] w-24">Neutral (Slate)</h3>
-                    <p class="text-[11px] text-[#64748B]">Used for overall layout, typography, and structure.</p>
-                </div>
-                <div class="grid grid-cols-5 gap-2">
-                    <div onclick="copyColor('#F8FAFC')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">50 / App BG</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#F8FAFC</span>
+            <!-- Preview UI - Emergency -->
+            <div class="xl:col-span-4">
+                <div class="sticky top-28 bg-white p-6 rounded-2xl border border-[#E4E4E7] shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-[#F4F4F5]">
+                        <div>
+                            <h3 class="font-bold text-[#09090B] text-[15px]">Emergency Log</h3>
                         </div>
+                        <span class="text-[10px] font-mono text-[#10B981] bg-[#ECFDF5] px-2 py-1 rounded">SYSTEM ONLINE</span>
                     </div>
-                    <div onclick="copyColor('#E2E8F0')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#E2E8F0] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">200 / Border</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#E2E8F0</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#64748B')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#64748B] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">500 / Sec. Text</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#64748B</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#334155')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#334155] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">700 / Body Text</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#334155</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#0F172A')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#0F172A] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">900 / Headings</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#0F172A</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <section>
-                <div class="flex items-center gap-2 mb-3">
-                    <h3 class="text-sm font-bold text-[#2563EB] w-24">Primary (Blue)</h3>
-                    <p class="text-[11px] text-[#64748B]">Used for main actions, active states, and informative highlights.</p>
-                </div>
-                <div class="grid grid-cols-5 gap-2">
-                    <div onclick="copyColor('#EFF6FF')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#EFF6FF] border border-[#DBEAFE] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">50 / Soft BG</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#EFF6FF</span>
+                    <div class="space-y-4">
+                        <div class="bg-[#FFF1F2] border border-[#FECDD3] p-4 rounded-xl flex gap-3 shadow-sm">
+                            <div class="mt-0.5 shrink-0 w-2 h-2 rounded-full bg-[#F43F5E] shadow-[0_0_5px_rgba(244,63,94,0.6)] animate-pulse"></div>
+                            <div class="w-full">
+                                <div class="flex justify-between items-start w-full">
+                                    <h4 class="font-bold text-[#881337] text-xs uppercase tracking-wide">Breach Detected</h4>
+                                </div>
+                                <p class="text-[#881337] opacity-90 text-[11px] mt-1.5 leading-relaxed">
+                                    Unauthorized access protocol triggered.
+                                </p>
+                                <button class="mt-3 bg-[#BE123C] hover:bg-[#881337] text-white text-[10px] font-bold px-3 py-1.5 rounded transition-colors">
+                                    INITIATE LOCKDOWN
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div onclick="copyColor('#BFDBFE')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#BFDBFE] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">200 / Focus Ring</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#BFDBFE</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#3B82F6')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#3B82F6] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">500 / Base</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#3B82F6</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#1D4ED8')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#1D4ED8] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">700 / Hover</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#1D4ED8</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#1E3A8A')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#1E3A8A] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">900 / Deep Text</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#1E3A8A</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <section>
-                <div class="flex items-center gap-2 mb-3">
-                    <h3 class="text-sm font-bold text-[#E11D48] w-24">Critical (Rose)</h3>
-                    <p class="text-[11px] text-[#64748B]">Used for severe failures, destructive actions, and critical alerts.</p>
-                </div>
-                <div class="grid grid-cols-5 gap-2">
-                    <div onclick="copyColor('#FFF1F2')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#FFF1F2] border border-[#FFE4E6] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">50 / Alert BG</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#FFF1F2</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#FECDD3')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#FECDD3] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">200 / Alert Border</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#FECDD3</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#F43F5E')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#F43F5E] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">500 / Indicator</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#F43F5E</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#BE123C')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#BE123C] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">700 / Action</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#BE123C</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#881337')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#881337] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">900 / Alert Text</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#881337</span>
+                        <div class="grid grid-cols-2 gap-3 pt-2">
+                            <div class="bg-[#FAFAFA] border border-[#E4E4E7] p-3.5 rounded-xl">
+                                <span class="text-[#71717A] block text-[10px] font-bold uppercase tracking-wider mb-2">Sensor Array</span>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></div>
+                                    <span class="text-[14px] font-bold text-[#09090B]">Online</span>
+                                </div>
+                            </div>
+                            <div class="bg-[#FAFAFA] border border-[#E4E4E7] p-3.5 rounded-xl">
+                                <span class="text-[#71717A] block text-[10px] font-bold uppercase tracking-wider mb-2">Security Hash</span>
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-3.5 h-3.5 text-[#3B82F6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span class="text-[14px] font-bold text-[#09090B]">Verified</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <section>
-                <div class="flex items-center gap-2 mb-3">
-                    <h3 class="text-sm font-bold text-[#D97706] w-24">Warning (Amber)</h3>
-                    <p class="text-[11px] text-[#64748B]">Used for high load, impending issues, and advisory notices.</p>
-                </div>
-                <div class="grid grid-cols-5 gap-2">
-                    <div onclick="copyColor('#FFFBEB')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#FFFBEB] border border-[#FEF3C7] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">50 / Alert BG</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#FFFBEB</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#FDE68A')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#FDE68A] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">200 / Alert Border</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#FDE68A</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#F59E0B')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#F59E0B] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">500 / Indicator</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#F59E0B</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#B45309')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#B45309] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">700 / Action</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#B45309</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#78350F')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#78350F] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">900 / Alert Text</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#78350F</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section>
-                <div class="flex items-center gap-2 mb-3">
-                    <h3 class="text-sm font-bold text-[#059669] w-24">Safe (Emerald)</h3>
-                    <p class="text-[11px] text-[#64748B]">Used for operational states, recovery confirmations, and active nodes.</p>
-                </div>
-                <div class="grid grid-cols-5 gap-2">
-                    <div onclick="copyColor('#ECFDF5')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#ECFDF5] border border-[#D1FAE5] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">50 / Alert BG</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#ECFDF5</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#A7F3D0')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#A7F3D0] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">200 / Alert Border</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#A7F3D0</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#10B981')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#10B981] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">500 / Indicator</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#10B981</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#047857')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#047857] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">700 / Action</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#047857</span>
-                        </div>
-                    </div>
-                    <div onclick="copyColor('#064E3B')" class="cursor-pointer group flex flex-col">
-                        <div class="h-14 w-full bg-[#064E3B] rounded-t-lg group-hover:opacity-90 transition-opacity"></div>
-                        <div class="border-x border-b border-[#E2E8F0] rounded-b-lg p-2 bg-white">
-                            <span class="block text-[10px] font-bold text-[#0F172A]">900 / Alert Text</span>
-                            <span class="block text-[10px] font-mono text-[#64748B] mt-0.5">#064E3B</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            </div>
         </div>
 
-        <div class="xl:col-span-4">
-            <div class="sticky top-28 bg-white p-6 rounded-2xl border border-[#E2E8F0] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)]">
-                
-                <div class="flex items-center justify-between mb-6 pb-4 border-b border-[#F1F5F9]">
-                    <div>
-                        <h3 class="font-bold text-[#0F172A] text-[15px]">Component Assembly</h3>
-                        <p class="text-[#64748B] text-[11px] mt-0.5">How scales are applied in UI</p>
-                    </div>
-                    <span class="text-[10px] font-mono text-[#94A3B8] bg-[#F8FAFC] px-2 py-1 rounded">LIVE VIEW</span>
+
+        <!-- ========================================== -->
+        <!-- VIEW 2: RISK DASHBOARD (New Concept) -->
+        <!-- ========================================== -->
+        <div id="view-risk" class="hidden grid-cols-1 xl:grid-cols-12 gap-8 fade-in">
+            
+            <div class="xl:col-span-8 space-y-10 bg-white p-8 rounded-2xl border border-[#E4E4E7] shadow-sm">
+                <div class="mb-6 border-b border-[#F4F4F5] pb-4">
+                    <h2 class="text-lg font-bold text-[#09090B]">Severity Matrix Colors</h2>
+                    <p class="text-sm text-[#71717A] mt-1">Analytical palette designed for heatmaps, risk assessments, and data severity.</p>
                 </div>
 
-                <div class="space-y-4">
-                    
-                    <div class="bg-[#FFF1F2] border border-[#FECDD3] p-4 rounded-xl flex gap-3 shadow-sm">
-                        <div class="mt-0.5 shrink-0 w-2 h-2 rounded-full bg-[#F43F5E] shadow-[0_0_5px_rgba(244,63,94,0.6)]"></div>
-                        <div class="w-full">
-                            <div class="flex justify-between items-start w-full">
-                                <h4 class="font-bold text-[#881337] text-xs uppercase tracking-wide">Breach Detected</h4>
-                                <span class="text-[#BE123C] text-[10px] font-mono">00:01s</span>
-                            </div>
-                            <p class="text-[#881337] opacity-90 text-[11px] mt-1.5 leading-relaxed">
-                                Unauthorized access protocol triggered on primary database. Immediate action required.
-                            </p>
-                            <button class="mt-3 bg-[#BE123C] hover:bg-[#881337] text-white text-[10px] font-bold px-3 py-1.5 rounded transition-colors">
-                                INITIATE LOCKDOWN
-                            </button>
-                        </div>
+                <!-- EXTREME -->
+                <section>
+                    <div class="flex items-center gap-2 mb-3">
+                        <h3 class="text-sm font-bold text-[#9F1239] w-32">Extreme (Ruby)</h3>
+                        <p class="text-[11px] text-[#71717A]">Unmitigated severe risks, fatal impacts.</p>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div onclick="copyColor('#FFF1F2')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#FFF1F2] border border-[#FFE4E6] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">50</span><span class="block text-[10px] font-mono text-[#71717A]">#FFF1F2</span></div></div>
+                        <div onclick="copyColor('#FECDD3')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#FECDD3] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">200</span><span class="block text-[10px] font-mono text-[#71717A]">#FECDD3</span></div></div>
+                        <div onclick="copyColor('#E11D48')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#E11D48] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">500</span><span class="block text-[10px] font-mono text-[#71717A]">#E11D48</span></div></div>
+                        <div onclick="copyColor('#9F1239')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#9F1239] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">700</span><span class="block text-[10px] font-mono text-[#71717A]">#9F1239</span></div></div>
+                        <div onclick="copyColor('#4C0519')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#4C0519] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">900</span><span class="block text-[10px] font-mono text-[#71717A]">#4C0519</span></div></div>
+                    </div>
+                </section>
+
+                <!-- HIGH -->
+                <section>
+                    <div class="flex items-center gap-2 mb-3">
+                        <h3 class="text-sm font-bold text-[#C2410C] w-32">High (Rust)</h3>
+                        <p class="text-[11px] text-[#71717A]">Major risks requiring immediate planning.</p>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div onclick="copyColor('#FFF7ED')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#FFF7ED] border border-[#FFEDD5] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">50</span><span class="block text-[10px] font-mono text-[#71717A]">#FFF7ED</span></div></div>
+                        <div onclick="copyColor('#FED7AA')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#FED7AA] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">200</span><span class="block text-[10px] font-mono text-[#71717A]">#FED7AA</span></div></div>
+                        <div onclick="copyColor('#EA580C')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#EA580C] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">500</span><span class="block text-[10px] font-mono text-[#71717A]">#EA580C</span></div></div>
+                        <div onclick="copyColor('#9A3412')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#9A3412] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">700</span><span class="block text-[10px] font-mono text-[#71717A]">#9A3412</span></div></div>
+                        <div onclick="copyColor('#431407')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#431407] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">900</span><span class="block text-[10px] font-mono text-[#71717A]">#431407</span></div></div>
+                    </div>
+                </section>
+
+                <!-- MEDIUM -->
+                <section>
+                    <div class="flex items-center gap-2 mb-3">
+                        <h3 class="text-sm font-bold text-[#B45309] w-32">Medium (Ochre)</h3>
+                        <p class="text-[11px] text-[#71717A]">Moderate risks needing standard control.</p>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div onclick="copyColor('#FFFBEB')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#FFFBEB] border border-[#FEF3C7] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">50</span><span class="block text-[10px] font-mono text-[#71717A]">#FFFBEB</span></div></div>
+                        <div onclick="copyColor('#FDE68A')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#FDE68A] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">200</span><span class="block text-[10px] font-mono text-[#71717A]">#FDE68A</span></div></div>
+                        <div onclick="copyColor('#F59E0B')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#F59E0B] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">500</span><span class="block text-[10px] font-mono text-[#71717A]">#F59E0B</span></div></div>
+                        <div onclick="copyColor('#B45309')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#B45309] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">700</span><span class="block text-[10px] font-mono text-[#71717A]">#B45309</span></div></div>
+                        <div onclick="copyColor('#78350F')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#78350F] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">900</span><span class="block text-[10px] font-mono text-[#71717A]">#78350F</span></div></div>
+                    </div>
+                </section>
+
+                <!-- LOW -->
+                <section>
+                    <div class="flex items-center gap-2 mb-3">
+                        <h3 class="text-sm font-bold text-[#0F766E] w-32">Low (Teal)</h3>
+                        <p class="text-[11px] text-[#71717A]">Acceptable risk thresholds (Avoiding pure green).</p>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div onclick="copyColor('#F0FDFA')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#F0FDFA] border border-[#CCFBF1] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">50</span><span class="block text-[10px] font-mono text-[#71717A]">#F0FDFA</span></div></div>
+                        <div onclick="copyColor('#99F6E4')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#99F6E4] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">200</span><span class="block text-[10px] font-mono text-[#71717A]">#99F6E4</span></div></div>
+                        <div onclick="copyColor('#14B8A6')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#14B8A6] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">500</span><span class="block text-[10px] font-mono text-[#71717A]">#14B8A6</span></div></div>
+                        <div onclick="copyColor('#0F766E')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#0F766E] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">700</span><span class="block text-[10px] font-mono text-[#71717A]">#0F766E</span></div></div>
+                        <div onclick="copyColor('#134E4A')" class="cursor-pointer group flex flex-col"><div class="h-14 bg-[#134E4A] rounded-t-lg"></div><div class="border-x border-b border-[#E4E4E7] rounded-b-lg p-2"><span class="block text-[10px] font-bold">900</span><span class="block text-[10px] font-mono text-[#71717A]">#134E4A</span></div></div>
+                    </div>
+                </section>
+                
+                <!-- Risk Category Colors -->
+                <div class="mt-8 pt-6 border-t border-[#F4F4F5]">
+                    <h3 class="text-sm font-bold text-[#09090B] mb-3">Categorical Graph Colors</h3>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div onclick="copyColor('#8B5CF6')" class="cursor-pointer flex items-center gap-3 p-3 rounded-xl border border-[#E4E4E7] hover:bg-[#F4F4F5]"><div class="w-6 h-6 rounded bg-[#8B5CF6]"></div><div><span class="block text-[10px] font-bold uppercase">Cyber</span><span class="block text-[10px] text-[#71717A]">#8B5CF6</span></div></div>
+                        <div onclick="copyColor('#06B6D4')" class="cursor-pointer flex items-center gap-3 p-3 rounded-xl border border-[#E4E4E7] hover:bg-[#F4F4F5]"><div class="w-6 h-6 rounded bg-[#06B6D4]"></div><div><span class="block text-[10px] font-bold uppercase">Compliance</span><span class="block text-[10px] text-[#71717A]">#06B6D4</span></div></div>
+                        <div onclick="copyColor('#EC4899')" class="cursor-pointer flex items-center gap-3 p-3 rounded-xl border border-[#E4E4E7] hover:bg-[#F4F4F5]"><div class="w-6 h-6 rounded bg-[#EC4899]"></div><div><span class="block text-[10px] font-bold uppercase">Financial</span><span class="block text-[10px] text-[#71717A]">#EC4899</span></div></div>
+                        <div onclick="copyColor('#6366F1')" class="cursor-pointer flex items-center gap-3 p-3 rounded-xl border border-[#E4E4E7] hover:bg-[#F4F4F5]"><div class="w-6 h-6 rounded bg-[#6366F1]"></div><div><span class="block text-[10px] font-bold uppercase">Operation</span><span class="block text-[10px] text-[#71717A]">#6366F1</span></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview UI - Risk -->
+            <div class="xl:col-span-4 space-y-6">
+                <!-- Enterprise Risk Score -->
+                <div class="bg-white p-6 rounded-2xl border border-[#E4E4E7] shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#EA580C] to-[#E11D48]"></div>
+                    <h3 class="font-bold text-[#09090B] text-[13px] uppercase tracking-wider mb-4">Enterprise Risk Score</h3>
+                    <div class="flex items-end gap-3 mb-2">
+                        <span class="text-5xl font-extrabold text-[#9F1239] leading-none tracking-tighter">84</span>
+                        <span class="text-sm font-bold text-[#71717A] mb-1">/ 100</span>
+                    </div>
+                    <div class="flex items-center gap-2 mb-5">
+                        <span class="bg-[#FFF1F2] text-[#E11D48] text-[10px] font-bold px-2 py-0.5 rounded border border-[#FFE4E6] uppercase tracking-wide">High Exposure</span>
                     </div>
 
-                    <div class="bg-[#FFFBEB] border border-[#FDE68A] p-4 rounded-xl flex gap-3 shadow-sm">
-                        <div class="mt-0.5 shrink-0 w-2 h-2 rounded-full bg-[#F59E0B]"></div>
-                        <div class="w-full">
-                            <div class="flex justify-between items-start w-full">
-                                <h4 class="font-bold text-[#78350F] text-xs uppercase tracking-wide">Network Latency</h4>
-                                <span class="text-[#B45309] text-[10px] font-mono">05:42m</span>
+                    <!-- Distribution Bar -->
+                    <div class="w-full h-2.5 flex rounded-full overflow-hidden bg-[#F4F4F5]">
+                        <div class="bg-[#14B8A6] h-full" style="width: 20%"></div>
+                        <div class="bg-[#F59E0B] h-full" style="width: 35%"></div>
+                        <div class="bg-[#EA580C] h-full" style="width: 30%"></div>
+                        <div class="bg-[#E11D48] h-full" style="width: 15%"></div>
+                    </div>
+                    <div class="flex justify-between mt-2 text-[9px] font-bold text-[#A1A1AA] uppercase tracking-wider">
+                        <span>Low</span><span>Med</span><span>High</span><span>Ext</span>
+                    </div>
+                </div>
+
+                <!-- Active Threats List -->
+                <div class="bg-white p-6 rounded-2xl border border-[#E4E4E7] shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                    <h3 class="font-bold text-[#09090B] text-[13px] uppercase tracking-wider mb-4">Risk Factors</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 rounded-lg border border-[#FFE4E6] bg-[#FFF1F2]">
+                            <div class="flex justify-between items-start mb-1">
+                                <span class="text-[11px] font-bold text-[#9F1239] uppercase">Data Exfiltration</span>
+                                <span class="text-[10px] font-mono text-[#E11D48] font-bold">Extreme</span>
                             </div>
-                            <p class="text-[#78350F] opacity-90 text-[11px] mt-1.5">
-                                Node clusters experiencing unusual traffic volume exceeding operational threshold.
-                            </p>
+                            <div class="w-full bg-[#FECDD3] h-1 mt-2 rounded"><div class="bg-[#E11D48] h-1 rounded" style="width: 95%"></div></div>
+                        </div>
+                        <div class="p-3 rounded-lg border border-[#FFEDD5] bg-[#FFF7ED]">
+                            <div class="flex justify-between items-start mb-1">
+                                <span class="text-[11px] font-bold text-[#9A3412] uppercase">API Gateway Load</span>
+                                <span class="text-[10px] font-mono text-[#EA580C] font-bold">High</span>
+                            </div>
+                            <div class="w-full bg-[#FED7AA] h-1 mt-2 rounded"><div class="bg-[#EA580C] h-1 rounded" style="width: 78%"></div></div>
                         </div>
                     </div>
-
-                    <div class="grid grid-cols-2 gap-3 pt-2">
-                        <div class="bg-[#F8FAFC] border border-[#E2E8F0] p-3.5 rounded-xl hover:border-[#CBD5E1] transition-colors cursor-pointer">
-                            <span class="text-[#64748B] block text-[10px] font-bold uppercase tracking-wider mb-2">Sensor Array</span>
-                            <div class="flex items-center gap-2">
-                                <div class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></div>
-                                <span class="text-[14px] font-bold text-[#0F172A]">Online</span>
-                            </div>
-                        </div>
-                        <div class="bg-[#F8FAFC] border border-[#E2E8F0] p-3.5 rounded-xl hover:border-[#CBD5E1] transition-colors cursor-pointer">
-                            <span class="text-[#64748B] block text-[10px] font-bold uppercase tracking-wider mb-2">Security Hash</span>
-                            <div class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5 text-[#3B82F6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span class="text-[14px] font-bold text-[#0F172A]">Verified</span>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
 
     </main>
 
-    <div id="toast" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-[#0F172A] text-white px-6 py-3.5 rounded-lg shadow-2xl text-[13px] font-bold tracking-wide transition-all duration-300 opacity-0 translate-y-4 pointer-events-none z-50 flex items-center gap-3 border border-[#334155]">
-        <div class="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></div>
+    <!-- Global Toast Notification -->
+    <div id="toast" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-[#09090B] text-white px-6 py-3.5 rounded-lg shadow-2xl text-[13px] font-bold tracking-wide transition-all duration-300 opacity-0 translate-y-4 pointer-events-none z-50 flex items-center gap-3">
+        <div class="w-2 h-2 rounded-full bg-[#10B981]"></div>
         <span id="toast-msg">COPIED TO CLIPBOARD</span>
     </div>
 
     <script>
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            const emergencyView = document.getElementById('view-emergency');
+            const riskView = document.getElementById('view-risk');
+            const btnEmergency = document.getElementById('tab-emergency');
+            const btnRisk = document.getElementById('tab-risk');
+            const headerTitle = document.getElementById('header-title');
+            const headerIndicator = document.getElementById('header-indicator');
+
+            if (tabId === 'emergency') {
+                emergencyView.classList.remove('hidden');
+                emergencyView.classList.add('grid');
+                riskView.classList.add('hidden');
+                riskView.classList.remove('grid');
+
+                btnEmergency.className = 'px-4 py-2 text-sm font-bold rounded-md transition-all duration-200 tab-active';
+                btnRisk.className = 'px-4 py-2 text-sm font-bold rounded-md transition-all duration-200 tab-inactive';
+                
+                headerTitle.innerText = 'EMERGENCY SYSTEM';
+                headerIndicator.className = 'w-3 h-3 rounded-full bg-[#E11D48] shadow-[0_0_8px_rgba(225,29,72,0.4)] animate-pulse';
+            } else {
+                riskView.classList.remove('hidden');
+                riskView.classList.add('grid');
+                emergencyView.classList.add('hidden');
+                emergencyView.classList.remove('grid');
+
+                btnRisk.className = 'px-4 py-2 text-sm font-bold rounded-md transition-all duration-200 tab-active';
+                btnEmergency.className = 'px-4 py-2 text-sm font-bold rounded-md transition-all duration-200 tab-inactive';
+                
+                headerTitle.innerText = 'RISK DASHBOARD';
+                headerIndicator.className = 'w-3 h-3 rounded-full bg-[#EA580C] shadow-[0_0_8px_rgba(234,88,12,0.4)]';
+            }
+        }
+
+        // Copy Color to Clipboard Logic
         function copyColor(hexValue) {
             navigator.clipboard.writeText(hexValue).then(() => {
                 const toast = document.getElementById('toast');
