@@ -23,6 +23,28 @@
         .nav-scroll { scrollbar-width: none; }
         .nav-scroll::-webkit-scrollbar { display: none; }
         
+        /* Category tab bar — mobile-first pill chips with active tracking (desktop restored at sm+) */
+        .cat-chip { background-color: #FFFFFF; border: 1px solid #E4E4E7; color: #52525B; box-shadow: 0 1px 2px rgba(9,9,11,0.06); }
+        .cat-chip .cat-count { color: #A1A1AA; font-weight: 600; }
+        .cat-chip:hover { background-color: #F4F4F5; color: #09090B; }
+        .cat-chip.cat-active { background-color: #09090B; color: #FFFFFF; border-color: transparent; }
+        .cat-chip.cat-active .cat-count { color: inherit; }
+        .dark .cat-chip { background-color: #18181B; border-color: #27272A; color: #A1A1AA; box-shadow: none; }
+        .dark .cat-chip:hover { background-color: #27272A; color: #FFFFFF; }
+        .dark .cat-chip.cat-active { background-color: #FAFAFA; color: #09090B; }
+        .dark .cat-chip .cat-count { color: #71717A; }
+        .dark .cat-chip.cat-active .cat-count { color: inherit; }
+        @media (min-width: 640px) {
+            .cat-chip { background-color: transparent; border-color: transparent; color: #52525B; box-shadow: none; }
+            .cat-chip:hover { background-color: #F4F4F5; color: #09090B; }
+            .cat-chip.cat-active { background-color: transparent; color: #09090B; }
+            .cat-chip.cat-active .cat-count { color: #A1A1AA; }
+            .dark .cat-chip { background-color: transparent; color: #A1A1AA; }
+            .dark .cat-chip:hover { background-color: #27272A; color: #FAFAFA; }
+            .dark .cat-chip.cat-active { background-color: transparent; color: #FAFAFA; }
+            .dark .cat-chip.cat-active .cat-count { color: #A1A1AA; }
+        }
+        
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -296,7 +318,7 @@
                         <span id="palette-count" class="shrink-0 text-[10px] font-bold text-[#71717A] bg-[#F4F4F5] border border-[#E4E4E7] px-2.5 py-2 rounded-lg"></span>
                     </div>
                 </div>
-                <div id="palette-catnav" class="sticky top-[calc(var(--nav-h,76px)_+_14px)] z-30 flex items-center gap-1 p-1.5 bg-white/85 backdrop-blur-xl border border-[#E4E4E7] rounded-full shadow-[0_4px_16px_rgba(9,9,11,0.06)] w-fit max-w-full overflow-x-auto mb-8"></div>
+                <div id="palette-catnav" class="sticky top-[calc(var(--nav-h,76px)_+_14px)] z-30 flex items-center gap-2 p-1.5 bg-white/85 backdrop-blur-xl border border-[#E4E4E7] rounded-full shadow-[0_4px_16px_rgba(9,9,11,0.06)] w-fit max-w-full overflow-x-auto snap-x snap-proximity mb-8"></div>
                 <div id="palette-root" class="space-y-12"></div>
                 <div id="palette-empty" class="hidden text-center py-16">
                     <i data-lucide="search-x" class="w-8 h-8 mx-auto text-[#A1A1AA] mb-3"></i>
@@ -412,6 +434,7 @@
                     btn.classList.add('tab-inactive');
                 }
             });
+            if (tabId === 'palette') requestAnimationFrame(updateActiveCat);
         }
 
         // Jump to the Full Palette tab and focus the search box
@@ -596,13 +619,48 @@
         function renderCatNav() {
             const nav = document.getElementById('palette-catnav');
             if (!nav) return;
+            const chip = (id, label, count) =>
+                `<button data-catlink="${id}" onclick="jumpToCat('${id}')" class="cat-chip shrink-0 snap-start px-4 py-2 sm:px-3.5 sm:py-1.5 rounded-full text-[12px] sm:text-[11px] font-bold transition-colors">${label} <span class="cat-count">${count}</span></button>`;
             const chips = PALETTE.map(cat => {
                 const id = 'pal-cat-' + cat.cat.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                 const count = cat.families.reduce((n, f) => n + f.shades.length, 0);
-                return `<button onclick="document.getElementById('${id}').scrollIntoView({ behavior: 'smooth', block: 'start' })" class="shrink-0 px-3.5 py-1.5 rounded-full text-[11px] font-bold text-[#52525B] hover:bg-[#F4F4F5] hover:text-[#09090B] transition-colors">${cat.cat} <span class="text-[#A1A1AA] font-semibold">${count}</span></button>`;
+                return chip(id, cat.cat, count);
             });
-            chips.push(`<button onclick="document.getElementById('pal-cat-categorical').scrollIntoView({ behavior: 'smooth', block: 'start' })" class="shrink-0 px-3.5 py-1.5 rounded-full text-[11px] font-bold text-[#52525B] hover:bg-[#F4F4F5] hover:text-[#09090B] transition-colors">Charts <span class="text-[#A1A1AA] font-semibold">${CHART_COLORS.length}</span></button>`);
+            chips.push(chip('pal-cat-categorical', 'Charts', CHART_COLORS.length));
             nav.innerHTML = chips.join('');
+        }
+
+        // Tap a category chip -> smooth-scroll to that tone section + highlight it
+        function jumpToCat(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            updateActiveCat();
+        }
+
+        // Track which tone section is in view and highlight the matching chip (mobile)
+        let lastActiveCat = null;
+        function updateActiveCat() {
+            const nav = document.getElementById('palette-catnav');
+            const view = document.getElementById('view-palette');
+            if (!nav || !view || view.classList.contains('hidden')) return;
+            const sections = [...document.querySelectorAll('#palette-root .cat-block')];
+            if (!sections.length) return;
+            const hh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 76;
+            const probe = hh + 160;
+            let current = sections[0];
+            for (const sec of sections) {
+                if (sec.getBoundingClientRect().top <= probe) current = sec;
+            }
+            if (current.id === lastActiveCat) return;
+            lastActiveCat = current.id;
+            nav.querySelectorAll('[data-catlink]').forEach(b => {
+                b.classList.toggle('cat-active', b.dataset.catlink === current.id);
+            });
+            // keep the highlighted chip centered in the bar (no-op when the bar fits)
+            const activeChip = nav.querySelector('.cat-chip.cat-active');
+            if (activeChip) {
+                nav.scrollTo({ left: activeChip.offsetLeft - (nav.clientWidth - activeChip.clientWidth) / 2, behavior: 'smooth' });
+            }
         }
 
         function clearPaletteSearch() {
@@ -1013,7 +1071,7 @@
             }
         });
 
-        // Back-to-top button visibility
+        // Back-to-top button visibility + category chip active tracking
         const backTopBtn = document.getElementById('back-top');
         window.addEventListener('scroll', () => {
             const show = (window.scrollY || document.documentElement.scrollTop) > 400;
@@ -1021,6 +1079,7 @@
             backTopBtn.classList.toggle('pointer-events-none', !show);
             backTopBtn.classList.toggle('translate-y-2', !show);
         }, { passive: true });
+        window.addEventListener('scroll', updateActiveCat, { passive: true });
 
         // Sticky sub-nav offset: track the real header height (2 rows on mobile, 1 row on desktop)
         // so the category bar always sticks just below the header — never hidden under it.
