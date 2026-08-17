@@ -1,0 +1,7 @@
+# Netlify build configuration
+# Runs a real production build and publishes the generated dist/ folder
+# (instead of serving raw source files, which breaks module loading).
+
+[build]
+  command = "npm ci && npm run build"
+  publish = "dist"
