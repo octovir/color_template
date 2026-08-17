@@ -1,0 +1,243 @@
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import type { ColorLibrary } from '../types'
+import { searchLibrary } from '../composables/useSearch'
+import { useClipboard } from '../composables/useClipboard'
+import { bestTextOn } from '../lib/color'
+import { Search, X, SearchX } from 'lucide-vue-next'
+
+const props = defineProps<{ library: ColorLibrary; active: boolean }>()
+const { copy, copyText } = useClipboard()
+
+const query = ref('')
+const result = computed(() => searchLibrary(props.library.categories, props.library.chartColors, query.value))
+
+const rootEl = ref<HTMLElement | null>(null)
+const navEl = ref<HTMLElement | null>(null)
+
+function slug(cat: string) {
+  return 'pal-cat-' + cat.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+}
+
+// Category nav chips — always the FULL library (counts don't change while searching)
+const navChips = computed(() => {
+  const chips = props.library.categories.map((cat) => ({
+    id: slug(cat.cat),
+    label: cat.cat,
+    count: cat.families.reduce((n, f) => n + f.shades.length, 0),
+  }))
+  chips.push({ id: 'pal-cat-categorical', label: 'Charts', count: props.library.chartColors.length })
+  return chips
+})
+
+// ---- active chip tracking (which tone section is in view) ----
+const activeCat = ref('')
+function updateActiveCat() {
+  const nav = navEl.value
+  const root = rootEl.value
+  if (!nav || !root || root.offsetParent === null) return // hidden view (v-show)
+  const sections = [...root.querySelectorAll('.cat-block')] as HTMLElement[]
+  if (!sections.length) return
+  const hh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 76
+  const probe = hh + 160
+  let current = sections[0]
+  for (const sec of sections) if (sec.getBoundingClientRect().top <= probe) current = sec
+  if (current.id === activeCat.value) return
+  activeCat.value = current.id
+  const activeChip = nav.querySelector('.cat-chip.cat-active') as HTMLElement | null
+  if (activeChip) {
+    nav.scrollTo({
+      left: activeChip.offsetLeft - (nav.clientWidth - activeChip.clientWidth) / 2,
+      behavior: 'smooth',
+    })
+  }
+}
+
+function jumpToCat(id: string) {
+  const el = document.getElementById(id)
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  updateActiveCat()
+}
+
+function copyFamilyCss(name: string) {
+  const f = props.library.categories.flatMap((c) => c.families).find((x) => x.name === name)
+  if (!f) return
+  const lines = f.shades.map(([s, h]) => `  --${f.name.toLowerCase()}-${String(s).toLowerCase()}: ${h.toUpperCase()};`).join('\n')
+  copyText(`:root {\n${lines}\n}`, 'COPIED ' + f.name.toUpperCase() + ' CSS')
+}
+
+function onScroll() {
+  updateActiveCat()
+}
+onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
+onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
+watch(
+  () => props.active,
+  (on) => {
+    if (on) requestAnimationFrame(updateActiveCat)
+  },
+)
+</script>
+
+<template>
+  <div class="grid-cols-1 gap-8 fade-in">
+    <div class="bg-white p-5 sm:p-8 rounded-2xl border border-[#E4E4E7] shadow-sm">
+      <div class="flex flex-col lg:flex-row lg:items-center gap-4 mb-6 border-b border-[#F4F4F5] pb-5">
+        <div class="flex-1">
+          <h2 class="text-lg font-bold text-[#09090B]">The Complete Palette</h2>
+          <p class="text-sm text-[#71717A] mt-1">
+            233 curated shades across 21 hue families (industry-standard Tailwind scale, WCAG-considered steps), plus
+            pure white &amp; black and a 12-color categorical set for charts. Every swatch is hand-picked — nothing
+            unvetted. The Palette Picker draws 100% of its colors from this library.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 w-full lg:w-auto">
+          <div class="relative flex-1 lg:w-80">
+            <Search class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#A1A1AA] pointer-events-none" />
+            <input
+              id="palette-search"
+              v-model="query"
+              type="text"
+              placeholder="Search Thai or English… e.g. สีฟ้าเข้ม, dark teal, 950"
+              class="w-full bg-[#F4F4F5] border border-[#E4E4E7] rounded-lg pl-8 pr-8 py-3 sm:py-2.5 text-[13px] outline-none focus:border-[#8B5CF6] transition-colors"
+            />
+            <button
+              v-if="query"
+              @click="query = ''"
+              title="Clear search"
+              class="absolute right-2 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-[#E4E4E7] text-[#52525B] items-center justify-center hover:bg-[#D4D4D8] transition-colors"
+            >
+              <X class="w-3 h-3" />
+            </button>
+          </div>
+          <span class="shrink-0 text-[10px] font-bold text-[#71717A] bg-[#F4F4F5] border border-[#E4E4E7] px-2.5 py-2 rounded-lg">
+            {{ result.total }} colors
+          </span>
+        </div>
+      </div>
+
+      <div
+        ref="navEl"
+        class="sticky top-[calc(var(--nav-h,76px)_+_14px)] z-30 flex items-center gap-2 p-1.5 bg-white/85 backdrop-blur-xl border border-[#E4E4E7] rounded-full shadow-[0_4px_16px_rgba(9,9,11,0.06)] w-fit max-w-full overflow-x-auto snap-x snap-proximity mb-8"
+      >
+        <button
+          v-for="chip in navChips"
+          :key="chip.id"
+          @click="jumpToCat(chip.id)"
+          class="cat-chip shrink-0 snap-start px-4 py-2 sm:px-3.5 sm:py-1.5 rounded-full text-[12px] sm:text-[11px] font-bold transition-colors"
+          :class="activeCat === chip.id ? 'cat-active' : ''"
+        >
+          {{ chip.label }} <span class="cat-count">{{ chip.count }}</span>
+        </button>
+      </div>
+
+      <div ref="rootEl" class="space-y-12">
+        <section
+          v-for="cat in result.categories"
+          :key="cat.cat"
+          :id="slug(cat.cat)"
+          class="cat-block scroll-mt-36"
+        >
+          <div class="flex items-end justify-between gap-4 mb-5">
+            <div>
+              <h2 class="text-lg font-bold text-[#09090B] flex items-center gap-2.5">
+                <span class="w-1.5 h-5 rounded-full bg-gradient-to-b from-[#2563EB] to-[#10B981]"></span>{{ cat.cat }}
+              </h2>
+              <p class="text-sm text-[#71717A] mt-1">{{ cat.note }}</p>
+            </div>
+            <span class="shrink-0 text-[10px] font-bold text-[#71717A] bg-[#F4F4F5] border border-[#E4E4E7] px-2.5 py-1 rounded-lg">
+              {{ cat.families.reduce((n, f) => n + f.shades.length, 0) }} colors
+            </span>
+          </div>
+          <div class="space-y-4">
+            <div v-for="f in cat.families" :key="f.name" class="family-section bg-white rounded-2xl border border-[#E4E4E7] shadow-sm p-4">
+              <div class="flex items-center justify-between gap-3 mb-3">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0" :style="{ background: f.hex500 }"></span>
+                  <h3 class="text-[13px] font-bold shrink-0" :style="{ color: f.hex500 }">{{ f.name }}</h3>
+                  <p class="text-[11px] text-[#71717A] truncate">{{ f.note }}</p>
+                </div>
+                <button
+                  @click="copyFamilyCss(f.name)"
+                  class="shrink-0 text-[9px] font-bold text-[#71717A] bg-[#F4F4F5] border border-[#E4E4E7] px-2 py-1 rounded-md hover:bg-[#E4E4E7] transition-colors"
+                >
+                  Copy CSS
+                </button>
+              </div>
+              <div class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-11 gap-2">
+                <div
+                  v-for="[shade, hex] in f.shades"
+                  :key="shade"
+                  class="swatch cursor-pointer group flex flex-col hover:-translate-y-0.5 transition-transform duration-150"
+                  @click="copy(hex.toUpperCase())"
+                >
+                  <div class="relative h-16 rounded-t-lg overflow-hidden border border-black/5" :style="{ background: hex }">
+                    <span class="absolute top-1 left-1.5 text-[9px] font-bold font-mono" :style="{ color: bestTextOn(hex) }">{{ shade }}</span>
+                  </div>
+                  <div class="border-x border-b border-[#E4E4E7] rounded-b-lg px-1.5 py-1 bg-white flex items-center justify-between gap-1">
+                    <span class="text-[9px] font-mono text-[#71717A] truncate">{{ hex.toUpperCase() }}</span>
+                    <span class="opacity-0 group-hover:opacity-100 transition-opacity text-[8px] font-bold text-[#A1A1AA]">COPY</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Categorical / chart set -->
+        <section id="pal-cat-categorical" class="cat-block scroll-mt-36">
+          <div class="flex items-end justify-between gap-4 mb-5">
+            <div>
+              <h2 class="text-lg font-bold text-[#09090B] flex items-center gap-2.5">
+                <span class="w-1.5 h-5 rounded-full bg-gradient-to-b from-[#0D9488] to-[#8B5CF6]"></span>Categorical &amp; Charts
+              </h2>
+              <p class="text-sm text-[#71717A] mt-1">
+                12 distinct mid-tone hues for data visualization, multi-series charts, and category labels. Warm and
+                cool hues alternate for maximum separation.
+              </p>
+            </div>
+            <span class="shrink-0 text-[10px] font-bold text-[#71717A] bg-[#F4F4F5] border border-[#E4E4E7] px-2.5 py-1 rounded-lg">
+              {{ result.chartColors.length }} colors
+            </span>
+          </div>
+          <div class="bg-white rounded-2xl border border-[#E4E4E7] shadow-sm p-4">
+            <div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-12 gap-2">
+              <div
+                v-for="(c, i) in result.chartColors"
+                :key="c.name"
+                class="swatch cursor-pointer group flex flex-col hover:-translate-y-0.5 transition-transform duration-150"
+                @click="copy(c.hex.toUpperCase())"
+              >
+                <div class="relative h-16 rounded-t-lg overflow-hidden border border-black/5" :style="{ background: c.hex }">
+                  <span class="absolute top-1 left-1.5 text-[9px] font-bold font-mono" :style="{ color: bestTextOn(c.hex) }">
+                    C{{ String(i + 1).padStart(2, '0') }}
+                  </span>
+                </div>
+                <div class="border-x border-b border-[#E4E4E7] rounded-b-lg px-1.5 py-1 bg-white flex items-center justify-between gap-1">
+                  <span class="text-[9px] font-mono text-[#71717A] truncate">{{ c.hex.toUpperCase() }}</span>
+                  <span class="opacity-0 group-hover:opacity-100 transition-opacity text-[8px] font-bold text-[#A1A1AA]">COPY</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div v-if="query.trim() && result.total === 0" class="text-center py-16">
+        <SearchX class="w-8 h-8 mx-auto text-[#A1A1AA] mb-3" />
+        <h3 class="text-[15px] font-bold text-[#09090B]">No colors found</h3>
+        <p class="text-[12px] text-[#71717A] mt-1 mb-5">Try another word — Thai or English, a shade level, or a hex code. For example:</p>
+        <div class="flex flex-wrap justify-center gap-2">
+          <button
+            v-for="ex in ['สีฟ้าเข้ม', 'dark teal', 'pastel', '#8B5CF6']"
+            :key="ex"
+            @click="query = ex"
+            class="text-[11px] font-bold text-[#7C3AED] bg-[#F5F3FF] border border-[#EDE9FE] px-3 py-1.5 rounded-full hover:bg-[#EDE9FE] transition-colors"
+          >
+            {{ ex }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

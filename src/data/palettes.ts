@@ -1,16 +1,6 @@
-// ============================================================
-// PALETTE PICKER DATA — curated palette presets (icons are Lucide names)
-// 15 site types × hand-tuned palettes = 46 total
-// (E-commerce gets 4, the rest get 3)
-//
-// Every palette has exactly 6 roles:
-//   Primary, Secondary, Accent, Background, Surface, Text
-// All hex values follow the Tailwind v3 scale. Each pairing was
-// chosen for harmony (analogous/complementary) and readable
-// contrast between Text and Background/Surface.
-// Edit freely — add palettes, tweak colors, add categories.
-// ============================================================
-const PALETTE_PRESETS = [
+import type { PalettePreset } from '../types'
+
+export const PALETTE_PRESETS: PalettePreset[] = [
   {
     id: 'ecommerce',
     icon: 'shopping-bag',
@@ -177,4 +167,4 @@ const PALETTE_PRESETS = [
       { name: 'Athletic', desc: 'Volt yellow on black — sportswear attitude at full volume.', colors: [['Primary', '#FACC15'], ['Secondary', '#F4F4F5'], ['Accent', '#F97316'], ['Background', '#09090B'], ['Surface', '#18181B'], ['Text', '#FAFAFA']] },
     ],
   },
-];
+]

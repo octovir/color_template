@@ -1,0 +1,105 @@
+        body { 
+            font-family: 'Plus Jakarta Sans', 'IBM Plex Sans Thai', sans-serif; 
+            background-color: #F4F4F5;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #D4D4D8; border-radius: 4px; }
+        .nav-scroll { scrollbar-width: none; }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+        
+        /* Category tab bar — mobile-first pill chips with active tracking (desktop restored at sm+) */
+        .cat-chip { background-color: #FFFFFF; border: 1px solid #E4E4E7; color: #52525B; box-shadow: 0 1px 2px rgba(9,9,11,0.06); }
+        .cat-chip .cat-count { color: #A1A1AA; font-weight: 600; }
+        .cat-chip:hover { background-color: #F4F4F5; color: #09090B; }
+        .cat-chip.cat-active { background-color: #09090B; color: #FFFFFF; border-color: transparent; }
+        .cat-chip.cat-active .cat-count { color: inherit; }
+        .dark .cat-chip { background-color: #18181B; border-color: #27272A; color: #A1A1AA; box-shadow: none; }
+        .dark .cat-chip:hover { background-color: #27272A; color: #FFFFFF; }
+        .dark .cat-chip.cat-active { background-color: #FAFAFA; color: #09090B; }
+        .dark .cat-chip .cat-count { color: #71717A; }
+        .dark .cat-chip.cat-active .cat-count { color: inherit; }
+        @media (min-width: 640px) {
+            .cat-chip { background-color: transparent; border-color: transparent; color: #52525B; box-shadow: none; }
+            .cat-chip:hover { background-color: #F4F4F5; color: #09090B; }
+            .cat-chip.cat-active { background-color: transparent; color: #09090B; }
+            .cat-chip.cat-active .cat-count { color: #A1A1AA; }
+            .dark .cat-chip { background-color: transparent; color: #A1A1AA; }
+            .dark .cat-chip:hover { background-color: #27272A; color: #FAFAFA; }
+            .dark .cat-chip.cat-active { background-color: transparent; color: #FAFAFA; }
+            .dark .cat-chip.cat-active .cat-count { color: #A1A1AA; }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .gradient-animate {
+            background-size: 200% 200%;
+            animation: gradientShift 7s ease-in-out infinite;
+        }
+        .grad-text {
+            background-image: linear-gradient(120deg, #2563EB 0%, #8B5CF6 50%, #10B981 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        @keyframes glowFloat {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(50px, -35px, 0) scale(1.12); }
+            100% { transform: translate3d(-40px, 30px, 0) scale(0.94); }
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes selectPop {
+            0% { transform: scale(0.96); }
+            100% { transform: scale(1); }
+        }
+        .pop-in { animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+        .card-in { animation: cardIn 0.35s ease-out both; }
+        .select-pop { animation: selectPop 0.25s ease-out both; }
+        @media (prefers-reduced-motion: reduce) {
+            .gradient-animate, .grad-text, .tab-active, #ambient-glow { animation: none !important; }
+            .pop-in, .card-in, .select-pop { animation: none !important; }
+            .fade-in { animation: none; }
+        }
+
+        #palette-search:focus {
+            background-color: #FFFFFF;
+        }
+        #palette-search::placeholder {
+            color: #A1A1AA;
+        }
+        .tab-active {
+            background-image: linear-gradient(135deg, #2563EB 0%, #7C3AED 50%, #10B981 100%);
+            background-size: 200% 100%;
+            background-repeat: no-repeat;
+            background-position: 0% 50%;
+            animation: gradientShift 7s ease-in-out infinite;
+            color: #FFFFFF;
+            border-color: transparent;
+            box-shadow: 0 2px 10px rgba(79, 70, 229, 0.35);
+        }
+        .tab-inactive {
+            color: #52525B;
+            border-color: transparent;
+        }
+        .tab-inactive:hover {
+            background-color: rgba(9, 9, 11, 0.06);
+            color: #09090B;
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
