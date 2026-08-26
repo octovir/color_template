@@ -150,10 +150,11 @@ watch(
       </div>
     </div>
 
-    <!-- Sticky filters: categories + shade levels -->
+    <!-- Sticky filters: categories + shade levels (near-opaque so page content
+         scrolling behind the bar can't leak through) -->
     <div
       ref="navEl"
-      class="glass-strong sticky top-[calc(var(--nav-h,0px)_+_12px)] z-30 mt-6 mb-6 w-fit max-w-full rounded-2xl"
+      class="glass-solid sticky top-[calc(var(--nav-h,0px)_+_12px)] z-30 mt-6 mb-6 w-fit max-w-full rounded-2xl"
     >
       <div class="flex items-center gap-1.5 p-1.5 overflow-x-auto nav-scroll snap-x snap-proximity">
         <button

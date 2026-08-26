@@ -14,7 +14,7 @@ A curated color library website for designers and developers: search 245 swatche
 
 ## Design tokens — Liquid Glass (v4, 2026-08-27)
 **ONE surface language for the whole site** (user: "control UX/UI to look like one piece"):
-- `.glass` / `.glass-strong` — translucent frosted panes: `blur(20–24px) saturate(160–180%)`, 55–72% white (light) / dark-tinted (dark), hairline border + **specular inset top edge**, soft drop shadow
+- `.glass` / `.glass-strong` — translucent frosted panes: `blur(20–24px) saturate(160–180%)`, **50/64% white** (light) / 48/64% dark — user: "less opaque, a bit" (was 58/72). `.glass-solid` (95/93%) is reserved for **sticky bars that content scrolls behind** — the Full Palette filter bar leaked page text through translucent glass (user-flagged with a screenshot crop; pixel-verified: content behind now contributes ≤7%)
 - `.glass-chip` — pills: chips, ghost buttons, count badges (rounded-full)
 - `.glass-field` — ALL search inputs identical: rounded-full, blur(16px) saturate(160%), inset highlight; focus = brightened bg + black ring
 - `.glass-track` — segmented-control tracks (nav, rail hover)
