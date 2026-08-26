@@ -43,10 +43,6 @@
 
 .dark [class~="shadow-sm"] { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4); }
 .dark [class~="shadow-[0_4px_24px_rgba(9,9,11,0.06)]"] { box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5); }
-.dark #palette-search { background-color: #18181B; }
-.dark #palette-search:focus { background-color: #1C1C1F; }
-.dark #toast { background-color: #FAFAFA; color: #09090B; }
-.dark #back-top { background-color: #FAFAFA; color: #09090B; }
 
 /* Focus + selection rings and dividers need light equivalents in dark mode. */
 .dark [class~="focus:border-[#18181B]"]:focus { border-color: #FAFAFA; }

@@ -106,10 +106,10 @@ watch(activePalette, (p) => {
             v-for="c in presets"
             :key="c.id"
             @click="selectCat(c.id)"
-            class="shrink-0 lg:w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-left transition-colors touch-manipulation"
+            class="shrink-0 lg:w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-left transition-all touch-manipulation"
             :class="
               activeCatId === c.id
-                ? 'bg-[#F4F4F5] text-[#18181B] font-semibold'
+                ? 'bg-white shadow-sm text-[#18181B] font-semibold'
                 : 'text-[#71717A] hover:bg-[#F4F4F5]/60 hover:text-[#18181B]'
             "
           >
@@ -133,11 +133,11 @@ watch(activePalette, (p) => {
             tabindex="0"
             @click="selectPalette(activePreset.id, i)"
             @keydown.enter.prevent="selectPalette(activePreset.id, i)"
-            class="pal-card relative cursor-pointer rounded-xl border bg-white p-3.5 transition-all duration-150 touch-manipulation active:scale-[0.98] select-pop"
+            class="pal-card relative cursor-pointer glass rounded-2xl p-3.5 transition-all duration-150 touch-manipulation active:scale-[0.98] select-pop"
             :class="
               activeIdx === i
                 ? 'border-[#18181B] ring-2 ring-[#18181B]/15'
-                : 'border-[#E4E4E7] hover:border-[#D4D4D8] hover:shadow-sm'
+                : 'hover:shadow-md'
             "
           >
             <div
@@ -163,7 +163,7 @@ watch(activePalette, (p) => {
             <div class="flex items-center justify-between pt-2 border-t border-[#F4F4F5]">
               <button
                 @click.stop="copyCssVars(activePreset.id, i)"
-                class="text-[10px] font-semibold text-[#52525B] px-2.5 py-1.5 rounded-md border border-[#E4E4E7] hover:text-[#18181B] hover:border-[#D4D4D8] hover:bg-[#F4F4F5] transition-colors"
+                class="glass-chip text-[10px] font-semibold text-[#52525B] px-2.5 py-1.5 rounded-full"
               >
                 Copy CSS variables
               </button>
@@ -179,14 +179,14 @@ watch(activePalette, (p) => {
         class="mt-10 lg:mt-5 lg:col-span-2 xl:col-span-1 xl:sticky xl:top-[calc(var(--nav-h,0px)_+_16px)] xl:max-h-[calc(100vh_-_var(--nav-h,0px)_-_2rem)] xl:overflow-y-auto nav-scroll"
       >
         <h3 class="text-[11px] font-semibold text-[#71717A] mb-2">Step 3 · Preview &amp; copy</h3>
-        <div class="rounded-xl border border-[#E4E4E7] bg-white p-4 fade-in">
+        <div class="glass rounded-2xl p-4 fade-in">
           <PreviewMockup :palette="activePalette" />
 
           <div class="flex items-center justify-between gap-2 mt-4 mb-1.5">
             <h4 class="text-[13px] font-semibold text-[#18181B]">{{ activePalette.name }}</h4>
             <button
               @click="copyCssVars()"
-              class="text-[10px] font-semibold text-[#52525B] px-2.5 py-1.5 rounded-md border border-[#E4E4E7] hover:text-[#18181B] hover:border-[#D4D4D8] hover:bg-[#F4F4F5] transition-colors"
+              class="glass-chip text-[10px] font-semibold text-[#52525B] px-2.5 py-1.5 rounded-full"
             >
               Copy CSS variables
             </button>

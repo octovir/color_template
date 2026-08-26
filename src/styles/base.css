@@ -11,13 +11,89 @@ body {
 .nav-scroll { scrollbar-width: none; }
 .nav-scroll::-webkit-scrollbar { display: none; }
 
-/* Shade-level filter chips (50..950) — same language as category chips, smaller */
-.shade-chip { background-color: #FFFFFF; border: 1px solid #E4E4E7; color: #52525B; }
-.shade-chip:hover { background-color: #F4F4F5; color: #18181B; }
-.shade-chip.shade-active { background-color: #18181B; color: #FFFFFF; border-color: transparent; }
-.dark .shade-chip { background-color: #18181B; border-color: #27272A; color: #A1A1AA; }
-.dark .shade-chip:hover { background-color: #27272A; color: #FFFFFF; }
-.dark .shade-chip.shade-active { background-color: #FAFAFA; color: #09090B; }
+/* ============================================================
+   Liquid-glass design language — ONE surface system for the
+   whole site. Surfaces are translucent frosted panes with a
+   specular top edge; the ambient glow shows through the blur.
+   Dark mode is handled inside these classes.
+   NOTE: :where() keeps specificity at 0 so Tailwind utilities
+   (ring-2, border-[#18181B], etc.) can override glass chrome.
+   ============================================================ */
+:where(.glass) {
+    background: rgba(255, 255, 255, 0.58);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(9, 9, 11, 0.07);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 8px 32px rgba(9, 9, 11, 0.05);
+}
+:where(.glass-strong) {
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(9, 9, 11, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 32px rgba(9, 9, 11, 0.08);
+}
+.dark :where(.glass) { background: rgba(24, 24, 27, 0.55); border-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 32px rgba(0, 0, 0, 0.35); }
+.dark :where(.glass-strong) { background: rgba(24, 24, 27, 0.72); border-color: rgba(255, 255, 255, 0.12); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.45); }
+
+/* Pills: chips, ghost buttons, count badges */
+:where(.glass-chip) {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(9, 9, 11, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+:where(.glass-chip):hover { background: rgba(9, 9, 11, 0.05); }
+.dark :where(.glass-chip) { background: rgba(24, 24, 27, 0.6); border-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06); }
+.dark :where(.glass-chip):hover { background: rgba(255, 255, 255, 0.1); }
+
+/* Search fields — identical language everywhere (navbar, hero, palette) */
+:where(.glass-field) {
+    background: rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(9, 9, 11, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+:where(.glass-field):focus { background: rgba(255, 255, 255, 0.88); }
+.dark :where(.glass-field) { background: rgba(24, 24, 27, 0.6); border-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06); }
+.dark :where(.glass-field):focus { background: rgba(28, 28, 31, 0.9); }
+
+/* Neutral track for segmented controls */
+:where(.glass-track) { background: rgba(9, 9, 11, 0.05); }
+.dark :where(.glass-track) { background: rgba(255, 255, 255, 0.08); }
+
+/* Category + shade chips — translucent pills over the glass bars */
+.cat-chip, .shade-chip {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(9, 9, 11, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    color: #52525B;
+}
+.cat-chip .cat-count { color: #A1A1AA; font-weight: 500; }
+.cat-chip:hover, .shade-chip:hover { background: rgba(9, 9, 11, 0.05); color: #18181B; }
+.cat-chip.cat-active, .shade-chip.shade-active {
+    background: #18181B;
+    color: #FFFFFF;
+    border-color: transparent;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 2px 8px rgba(9, 9, 11, 0.2);
+}
+.cat-chip.cat-active .cat-count { color: rgba(255, 255, 255, 0.65); }
+.dark .cat-chip, .dark .shade-chip { background: rgba(24, 24, 27, 0.6); border-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06); color: #A1A1AA; }
+.dark .cat-chip:hover, .dark .shade-chip:hover { background: rgba(255, 255, 255, 0.1); color: #FFFFFF; }
+.dark .cat-chip.cat-active, .dark .shade-chip.shade-active { background: #FAFAFA; color: #09090B; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); }
+.dark .cat-chip.cat-active .cat-count { color: rgba(9, 9, 11, 0.55); }
+@media (min-width: 640px) {
+    .cat-chip { background: transparent; border-color: transparent; box-shadow: none; color: #52525B; }
+    .cat-chip:hover { background: rgba(9, 9, 11, 0.05); color: #18181B; }
+    .cat-chip.cat-active { background: transparent; color: #18181B; box-shadow: none; }
+    .cat-chip.cat-active .cat-count { color: #A1A1AA; }
+    .dark .cat-chip { background: transparent; color: #A1A1AA; }
+    .dark .cat-chip:hover { background: rgba(255, 255, 255, 0.08); color: #FAFAFA; }
+    .dark .cat-chip.cat-active { background: transparent; color: #FAFAFA; }
+    .dark .cat-chip.cat-active .cat-count { color: #A1A1AA; }
+}
 
 /* Ambient glow — static soft color washes behind the content. Scenes crossfade
    on tab change; the active scene is fully opaque, others are transparent. */
@@ -37,27 +113,6 @@ body {
 .tray-enter-active, .tray-leave-active { transition: opacity 0.2s ease-out, transform 0.2s ease-out; }
 .tray-enter-from, .tray-leave-to { opacity: 0; transform: translateY(8px); }
 
-/* Category tab bar — mobile-first pill chips with active tracking (desktop restored at sm+) */
-.cat-chip { background-color: #FFFFFF; border: 1px solid #E4E4E7; color: #52525B; box-shadow: 0 1px 2px rgba(9, 9, 11, 0.05); }
-.cat-chip .cat-count { color: #A1A1AA; font-weight: 500; }
-.cat-chip:hover { background-color: #F4F4F5; color: #18181B; }
-.cat-chip.cat-active { background-color: #18181B; color: #FFFFFF; border-color: transparent; box-shadow: 0 2px 8px rgba(9, 9, 11, 0.18); }
-.cat-chip.cat-active .cat-count { color: rgba(255, 255, 255, 0.65); }
-.dark .cat-chip { background-color: #18181B; border-color: #27272A; color: #A1A1AA; box-shadow: none; }
-.dark .cat-chip:hover { background-color: #27272A; color: #FFFFFF; }
-.dark .cat-chip.cat-active { background-color: #FAFAFA; color: #09090B; box-shadow: none; }
-.dark .cat-chip.cat-active .cat-count { color: rgba(9, 9, 11, 0.55); }
-@media (min-width: 640px) {
-    .cat-chip { background-color: transparent; border-color: transparent; color: #52525B; box-shadow: none; }
-    .cat-chip:hover { background-color: #F4F4F5; color: #18181B; }
-    .cat-chip.cat-active { background-color: transparent; color: #18181B; box-shadow: none; }
-    .cat-chip.cat-active .cat-count { color: #A1A1AA; }
-    .dark .cat-chip { background-color: transparent; color: #A1A1AA; }
-    .dark .cat-chip:hover { background-color: #27272A; color: #FAFAFA; }
-    .dark .cat-chip.cat-active { background-color: transparent; color: #FAFAFA; }
-    .dark .cat-chip.cat-active .cat-count { color: #A1A1AA; }
-}
-
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(4px); }
     to { opacity: 1; transform: translateY(0); }
@@ -74,8 +129,7 @@ body {
 .pop-in { animation: popIn 0.16s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
 .select-pop { animation: selectPop 0.15s ease-out both; }
 
-#palette-search:focus { background-color: #FFFFFF; }
-#palette-search::placeholder { color: #A1A1AA; }
+::placeholder { color: #A1A1AA; }
 
 @media (prefers-reduced-motion: reduce) {
     .fade-in, .pop-in, .select-pop, .tray-enter-active, .tray-leave-active, .glow-blob { animation: none !important; transition: none !important; }

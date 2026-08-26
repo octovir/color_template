@@ -12,14 +12,21 @@ A curated color library website for designers and developers: search 245 swatche
 - Picker adds a **palette tint layer**: the selected palette's Primary + Accent colors wash the background at ~0.14 alpha, crossfading when you switch palettes — the content colors the canvas
 - Dominant tone stays zinc per mode; glow is a haze, not a wallpaper
 
-## Tokens
-- Canvas: #FAFAFA light / #09090B dark
-- Surface (cards, header): #FFFFFF / #18181B; header bar = bg-white/70 blur
-- Hairline borders: #E4E4E7 / #27272A (shadows only for floating UI)
-- Text: #18181B / #71717A / #A1A1AA (light); #FAFAFA / #A1A1AA / #71717A (dark)
+## Design tokens — Liquid Glass (v4, 2026-08-27)
+**ONE surface language for the whole site** (user: "control UX/UI to look like one piece"):
+- `.glass` / `.glass-strong` — translucent frosted panes: `blur(20–24px) saturate(160–180%)`, 55–72% white (light) / dark-tinted (dark), hairline border + **specular inset top edge**, soft drop shadow
+- `.glass-chip` — pills: chips, ghost buttons, count badges (rounded-full)
+- `.glass-field` — ALL search inputs identical: rounded-full, blur(16px) saturate(160%), inset highlight; focus = brightened bg + black ring
+- `.glass-track` — segmented-control tracks (nav, rail hover)
+- **All classes use `:where()` (zero specificity)** so Tailwind utilities (ring-2, border-[#18181B]) can override glass chrome — verified: selected cards show the ring on top of glass
+- Dark mode handled INSIDE the glass classes; the zinc token mapping in dark.css covers the remaining flat text/borders
+- Interactive controls = rounded-full; surfaces/cards = rounded-2xl (16px); content tiles (swatches) stay solid for clarity
+- Glass works because the ambient glow sits behind — surfaces frost the color haze
+
+## Tokens (flat chrome)
+- Canvas: #FAFAFA light / #09090B dark; Text: #18181B / #71717A / #A1A1AA (light); #FAFAFA / #A1A1AA / #71717A (dark)
 - Font: IBM Plex Sans Thai ONLY (100–700 loaded; avoid 800). font-mono for hex codes.
-- Radius: 8px inputs/buttons, 12px cards, full pills/chips
-- Dark mode: `.dark` class + **exact-token** `[class~="..."]` mapping in `src/styles/dark.css`. Keep opacity variants in sync: bg-white/60..90 and border-[#E4E4E7]/60..80 must ALL be mapped or dark mode shows light bars (real bug caught by pixel verification).
+- Hairlines on flat sections: #E4E4E7 / #27272A; dark mapping = exact-token `[class~="..."]` (bg-white/60..90, border /60..80 all mapped)
 
 ## Layout & motion
 - Motion budget: 150–220ms UI (fade-in, pop-in, tray), 1.4s glow crossfade. No scroll reveals, no stagger, no count-up. `prefers-reduced-motion` honored (glow crossfade disabled).

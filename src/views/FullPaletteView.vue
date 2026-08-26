@@ -131,7 +131,7 @@ watch(
             v-model="query"
             type="text"
             placeholder="Search Thai or English… e.g. สีฟ้าเข้ม, dark teal, 950"
-            class="h-11 w-full bg-white border border-[#E4E4E7] rounded-lg pl-9 pr-8 text-[13px] text-[#18181B] outline-none focus:border-[#18181B] focus:ring-2 focus:ring-[#18181B]/10 transition-all"
+            class="glass-field h-11 w-full rounded-full pl-9 pr-8 text-[13px] text-[#18181B] outline-none focus:ring-2 focus:ring-[#18181B]/10"
           />
           <button
             v-if="query"
@@ -143,7 +143,7 @@ watch(
           </button>
         </div>
         <span
-          class="shrink-0 text-[11px] font-medium text-[#71717A] bg-white border border-[#E4E4E7] px-2.5 h-11 flex items-center rounded-lg tabular-nums"
+          class="glass-chip shrink-0 text-[11px] font-medium text-[#71717A] px-3 h-11 flex items-center rounded-full tabular-nums"
         >
           {{ filtered.total }} colors
         </span>
@@ -153,7 +153,7 @@ watch(
     <!-- Sticky filters: categories + shade levels -->
     <div
       ref="navEl"
-      class="sticky top-[calc(var(--nav-h,0px)_+_12px)] z-30 mt-6 mb-6 w-fit max-w-full rounded-2xl border border-[#E4E4E7] bg-white/85 backdrop-blur-xl shadow-[0_2px_8px_rgba(9,9,11,0.05)]"
+      class="glass sticky top-[calc(var(--nav-h,0px)_+_12px)] z-30 mt-6 mb-6 w-fit max-w-full rounded-2xl"
     >
       <div class="flex items-center gap-1.5 p-1.5 overflow-x-auto nav-scroll snap-x snap-proximity">
         <button
@@ -213,7 +213,7 @@ watch(
               </div>
               <button
                 @click="copyFamilyCss(f.name)"
-                class="shrink-0 text-[11px] font-medium text-[#71717A] px-2.5 py-1.5 rounded-md hover:text-[#18181B] hover:bg-[#F4F4F5] transition-colors"
+                class="glass-chip shrink-0 text-[11px] font-medium text-[#71717A] px-3 py-1.5 rounded-full"
               >
                 Copy CSS
               </button>
@@ -286,7 +286,7 @@ watch(
           v-for="ex in ['สีฟ้าเข้ม', 'dark teal', 'pastel', '#8B5CF6']"
           :key="ex"
           @click="query = ex; shadeFilter = null"
-          class="text-[11px] font-medium text-[#52525B] bg-white border border-[#E4E4E7] px-3 py-1.5 rounded-full hover:border-[#D4D4D8] transition-colors"
+          class="glass-chip text-[11px] font-medium text-[#52525B] px-3 py-1.5 rounded-full"
         >
           {{ ex }}
         </button>

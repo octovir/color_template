@@ -17,9 +17,7 @@ const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
 
 <template>
   <header class="sticky top-0 z-50 px-4 sm:px-8 pt-3 sm:pt-4">
-    <div
-      class="max-w-[1200px] mx-auto rounded-2xl border border-[#E4E4E7] bg-white/80 backdrop-blur-xl shadow-[0_4px_24px_rgba(9,9,11,0.06)]"
-    >
+    <div class="glass-strong max-w-[1200px] mx-auto rounded-2xl">
       <div class="flex items-center justify-between gap-3 px-3 sm:px-4 h-14 sm:h-16">
         <!-- Brand -->
         <a
@@ -37,7 +35,7 @@ const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
         </a>
 
         <!-- Desktop segmented nav -->
-        <nav class="hidden md:flex items-center gap-1 p-1 rounded-full bg-[#F4F4F5]">
+        <nav class="hidden md:flex items-center gap-1 p-1 rounded-full glass-track">
           <button
             v-for="t in tabs"
             :key="t.id"
@@ -58,10 +56,10 @@ const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
         <div class="flex items-center gap-1 shrink-0">
           <button
             @click="emit('focus-search')"
-            class="hidden sm:flex items-center gap-2 h-9 px-3 rounded-full bg-[#F4F4F5] text-[#A1A1AA] hover:text-[#52525B] hover:bg-[#E4E4E7] transition-colors w-44"
+            class="glass-field hidden sm:flex items-center gap-2 h-9 px-3 rounded-full w-44 focus:outline-none focus:ring-2 focus:ring-[#18181B]/10"
           >
-            <Search class="w-3.5 h-3.5 shrink-0" />
-            <span class="text-[12px]">Search colors</span>
+            <Search class="w-3.5 h-3.5 shrink-0 text-[#A1A1AA]" />
+            <span class="text-[12px] text-[#A1A1AA]">Search colors</span>
             <kbd
               class="ml-auto inline-flex items-center px-1.5 h-5 rounded border border-[#E4E4E7] bg-white text-[9px] font-semibold text-[#A1A1AA]"
             >
@@ -87,7 +85,7 @@ const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
       </div>
 
       <!-- Mobile segmented nav -->
-      <nav class="md:hidden flex gap-1 p-1 rounded-xl bg-[#F4F4F5] mx-3 mb-3">
+      <nav class="md:hidden flex gap-1 p-1 rounded-xl glass-track mx-3 mb-3">
         <button
           v-for="t in tabs"
           :key="t.id"

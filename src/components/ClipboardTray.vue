@@ -26,7 +26,7 @@ function copyAll() {
   <Transition name="tray">
     <div
       v-if="history.length"
-      class="fixed z-40 inset-x-4 lg:inset-x-auto lg:right-6 w-auto lg:w-[264px] bottom-[calc(4.75rem+env(safe-area-inset-bottom))] lg:bottom-24 rounded-xl border border-[#E4E4E7] bg-white shadow-[0_8px_30px_rgba(9,9,11,0.12)]"
+      class="glass-strong fixed z-40 inset-x-4 lg:inset-x-auto lg:right-6 w-auto lg:w-[264px] bottom-[calc(4.75rem+env(safe-area-inset-bottom))] lg:bottom-24 rounded-2xl"
     >
       <div class="flex items-center justify-between px-3 py-2 border-b border-[#F4F4F5]">
         <span class="text-[11px] font-semibold text-[#18181B]">Recent copies</span>

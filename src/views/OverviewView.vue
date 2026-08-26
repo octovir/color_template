@@ -72,10 +72,10 @@ function goSearch() {
             type="text"
             placeholder="Search Thai or English… e.g. สีฟ้าเข้ม, dark teal, 950"
             @keydown.enter="goSearch"
-            class="h-12 sm:h-14 w-full bg-white border border-[#E4E4E7] rounded-xl pl-11 sm:pl-12 pr-16 text-[13px] sm:text-[14px] text-[#18181B] shadow-[0_1px_2px_rgba(9,9,11,0.04)] outline-none focus:border-[#18181B] focus:ring-2 focus:ring-[#18181B]/10 transition-all"
+            class="glass-field h-12 sm:h-14 w-full rounded-full pl-11 sm:pl-12 pr-16 text-[13px] sm:text-[14px] text-[#18181B] outline-none focus:ring-2 focus:ring-[#18181B]/10"
           />
           <kbd
-            class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center px-2 h-6 rounded-md border border-[#E4E4E7] bg-[#F4F4F5] text-[10px] font-semibold text-[#71717A]"
+            class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center px-2 h-6 rounded-md border border-[#E4E4E7] bg-white text-[10px] font-semibold text-[#71717A]"
           >
             Enter ↵
           </kbd>
@@ -94,7 +94,7 @@ function goSearch() {
         <div
           v-for="f in rampFamilies"
           :key="f.name"
-          class="rounded-2xl border border-[#E4E4E7] bg-white overflow-hidden"
+          class="glass rounded-2xl overflow-hidden"
         >
           <div class="flex items-center justify-between gap-2 px-3.5 py-2.5">
             <div class="flex items-center gap-2 min-w-0">
@@ -142,7 +142,7 @@ function goSearch() {
     </section>
 
     <!-- Taste strips -->
-    <section class="bg-white rounded-xl border border-[#E4E4E7] p-6">
+    <section class="glass rounded-2xl p-6">
       <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h2 class="text-[15px] font-semibold text-[#18181B]">A taste of the library</h2>
         <span class="text-[11px] text-[#A1A1AA]">click any shade to copy</span>
