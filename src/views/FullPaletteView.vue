@@ -153,7 +153,7 @@ watch(
     <!-- Sticky filters: categories + shade levels -->
     <div
       ref="navEl"
-      class="glass sticky top-[calc(var(--nav-h,0px)_+_12px)] z-30 mt-6 mb-6 w-fit max-w-full rounded-2xl"
+      class="glass-strong sticky top-[calc(var(--nav-h,0px)_+_12px)] z-30 mt-6 mb-6 w-fit max-w-full rounded-2xl"
     >
       <div class="flex items-center gap-1.5 p-1.5 overflow-x-auto nav-scroll snap-x snap-proximity">
         <button
