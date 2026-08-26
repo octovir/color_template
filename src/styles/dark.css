@@ -11,6 +11,7 @@
 .dark [class~="bg-white/90"] { background-color: rgba(24, 24, 27, 0.9); }
 .dark [class~="bg-white/85"] { background-color: rgba(24, 24, 27, 0.85); }
 .dark [class~="bg-white/80"] { background-color: rgba(24, 24, 27, 0.8); }
+.dark [class~="bg-white/70"] { background-color: rgba(24, 24, 27, 0.7); }
 .dark [class~="bg-white/60"] { background-color: rgba(24, 24, 27, 0.6); }
 .dark [class~="bg-[#F4F4F5]"] { background-color: #1C1C1F; }
 .dark [class~="bg-[#E4E4E7]"] { background-color: #3F3F46; }
@@ -35,7 +36,9 @@
 .dark [class~="text-[#A1A1AA]"] { color: #71717A; }
 
 .dark [class~="border-[#E4E4E7]"] { border-color: #27272A; }
+.dark [class~="border-[#E4E4E7]/80"] { border-color: rgba(39, 39, 42, 0.8); }
 .dark [class~="border-[#E4E4E7]/70"] { border-color: rgba(39, 39, 42, 0.7); }
+.dark [class~="border-[#E4E4E7]/60"] { border-color: rgba(39, 39, 42, 0.6); }
 .dark [class~="border-[#D4D4D8]"] { border-color: #3F3F46; }
 .dark [class~="border-[#F4F4F5]"] { border-color: #1C1C1F; }
 

@@ -41,34 +41,38 @@ function goSearch() {
 <template>
   <div class="space-y-10 sm:space-y-14 fade-in">
     <!-- Intro + search -->
-    <section class="pt-2 lg:pt-0">
-      <h1 class="text-[22px] sm:text-[26px] lg:text-3xl font-semibold tracking-tight text-[#18181B] text-balance">
-        Curated colors for your interface
-      </h1>
-      <p class="text-[13px] sm:text-[14px] text-[#71717A] mt-1.5 max-w-xl leading-relaxed">
-        245 hand-vetted swatches across 22 hue families, plus 46 ready-made palettes for 15 site types. Search in
-        Thai or English, or browse the wall below.
-      </p>
-
-      <!-- Big search -->
-      <div class="relative mt-5 max-w-xl">
-        <Search
-          class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A1A1AA] pointer-events-none"
-        />
-        <input
-          v-model="query"
-          type="text"
-          placeholder="Search Thai or English… e.g. สีฟ้าเข้ม, dark teal, 950"
-          @keydown.enter="goSearch"
-          class="h-12 w-full bg-white border border-[#E4E4E7] rounded-xl pl-11 pr-16 text-[13px] text-[#18181B] outline-none focus:border-[#18181B] focus:ring-2 focus:ring-[#18181B]/10 transition-all"
-        />
-        <kbd
-          class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center px-2 h-6 rounded-md border border-[#E4E4E7] bg-[#F4F4F5] text-[10px] font-semibold text-[#71717A]"
+    <section class="pt-4 sm:pt-10">
+      <div class="max-w-2xl">
+        <h1
+          class="text-[34px] leading-[1.12] sm:text-[44px] sm:leading-[1.08] lg:text-[54px] lg:leading-[1.06] font-semibold tracking-tight text-[#18181B] text-balance"
         >
-          Enter ↵
-        </kbd>
+          Every color your interface needs, curated and one click away.
+        </h1>
+        <p class="text-[14px] sm:text-[16px] leading-relaxed text-[#71717A] mt-4 sm:mt-5 max-w-xl">
+          245 hand-vetted swatches across 22 hue families, plus 46 ready-made palettes for 15 site types. Search in
+          Thai or English, or browse the wall below.
+        </p>
+
+        <!-- Big search -->
+        <div class="relative mt-6 sm:mt-8 max-w-xl">
+          <Search
+            class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-[#A1A1AA] pointer-events-none"
+          />
+          <input
+            v-model="query"
+            type="text"
+            placeholder="Search Thai or English… e.g. สีฟ้าเข้ม, dark teal, 950"
+            @keydown.enter="goSearch"
+            class="h-12 sm:h-14 w-full bg-white border border-[#E4E4E7] rounded-xl pl-11 sm:pl-12 pr-16 text-[13px] sm:text-[14px] text-[#18181B] shadow-[0_1px_2px_rgba(9,9,11,0.04)] outline-none focus:border-[#18181B] focus:ring-2 focus:ring-[#18181B]/10 transition-all"
+          />
+          <kbd
+            class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center px-2 h-6 rounded-md border border-[#E4E4E7] bg-[#F4F4F5] text-[10px] font-semibold text-[#71717A]"
+          >
+            Enter ↵
+          </kbd>
+        </div>
+        <p class="text-[11px] text-[#A1A1AA] mt-2.5">Press Enter to open the full palette with your query applied.</p>
       </div>
-      <p class="text-[11px] text-[#A1A1AA] mt-2">Press Enter to open the full palette with your query applied.</p>
     </section>
 
     <!-- Signature: the whole library as a color wall -->

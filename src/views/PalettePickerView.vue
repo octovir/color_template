@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import type { ColorRole, PalettePreset } from '../types'
 import { useClipboard } from '../composables/useClipboard'
+import { useAmbient } from '../composables/useAmbient'
 import { contrastRatio, wcagLevel } from '../lib/color'
 import { icon } from '../lib/icons'
 import PreviewMockup from '../components/PreviewMockup.vue'
@@ -9,6 +10,7 @@ import { Check } from 'lucide-vue-next'
 
 const props = defineProps<{ presets: PalettePreset[] }>()
 const { copy, copyText } = useClipboard()
+const { setTint } = useAmbient()
 
 const activeCatId = ref<string | null>(null)
 const activeIdx = ref(0)
@@ -65,6 +67,21 @@ const contrastRows = computed<ContrastRow[]>(() => {
 onMounted(() => {
   if (props.presets.length) selectCat(props.presets[0].id)
 })
+
+// Tint the ambient background with the selected palette's own colors.
+watch(activePalette, (p) => {
+  if (!p) {
+    setTint(null)
+    return
+  }
+  const m = new Map(p.colors)
+  const primary = m.get('Primary')
+  const accent = m.get('Accent')
+  const bg = m.get('Background')
+  if (primary && accent) setTint([primary, accent])
+  else if (primary && bg) setTint([primary, bg])
+  else setTint(null)
+})
 </script>
 
 <template>
@@ -80,7 +97,9 @@ onMounted(() => {
 
     <div class="lg:grid lg:grid-cols-[200px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,1fr)_360px] lg:gap-6 lg:items-start">
       <!-- Step 1 — site types rail -->
-      <div class="lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto nav-scroll mt-6 lg:mt-5">
+      <div
+        class="lg:sticky lg:top-[calc(var(--nav-h,0px)_+_16px)] lg:max-h-[calc(100vh_-_var(--nav-h,0px)_-_2rem)] lg:overflow-y-auto nav-scroll mt-6 lg:mt-5"
+      >
         <h3 class="text-[11px] font-semibold text-[#71717A] mb-2 px-4 lg:px-0">Step 1 · Site type</h3>
         <div class="flex lg:flex-col gap-1.5 overflow-x-auto nav-scroll -mx-4 px-4 lg:mx-0 lg:px-0 pb-1 lg:pb-0">
           <button
@@ -157,7 +176,7 @@ onMounted(() => {
       <!-- Step 3 — preview & copy (sticky on xl) -->
       <div
         v-if="activePalette"
-        class="mt-10 lg:mt-5 lg:col-span-2 xl:col-span-1 xl:sticky xl:top-6 xl:max-h-[calc(100vh-3rem)] xl:overflow-y-auto nav-scroll"
+        class="mt-10 lg:mt-5 lg:col-span-2 xl:col-span-1 xl:sticky xl:top-[calc(var(--nav-h,0px)_+_16px)] xl:max-h-[calc(100vh_-_var(--nav-h,0px)_-_2rem)] xl:overflow-y-auto nav-scroll"
       >
         <h3 class="text-[11px] font-semibold text-[#71717A] mb-2">Step 3 · Preview &amp; copy</h3>
         <div class="rounded-xl border border-[#E4E4E7] bg-white p-4 fade-in">

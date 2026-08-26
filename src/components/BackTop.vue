@@ -20,7 +20,7 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
   <button
     @click="scrollTop"
     title="Back to top"
-    style="bottom: calc(4.75rem + env(safe-area-inset-bottom))"
+    style="bottom: calc(1.5rem + env(safe-area-inset-bottom))"
     class="fixed right-4 sm:right-6 z-40 w-10 h-10 rounded-full bg-[#09090B] text-white border border-[#E4E4E7] shadow-lg flex items-center justify-center transition-all duration-300 lg:bottom-6"
     :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'"
   >

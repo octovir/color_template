@@ -19,6 +19,20 @@ body {
 .dark .shade-chip:hover { background-color: #27272A; color: #FFFFFF; }
 .dark .shade-chip.shade-active { background-color: #FAFAFA; color: #09090B; }
 
+/* Ambient glow — static soft color washes behind the content. Scenes crossfade
+   on tab change; the active scene is fully opaque, others are transparent. */
+.glow-blob {
+    position: absolute;
+    border-radius: 9999px;
+    transition: opacity 1.4s ease;
+    will-change: opacity;
+}
+.glow-on { opacity: 1; }
+.glow-off { opacity: 0; }
+.glow-fade-enter-active { transition: opacity 0.8s ease; }
+.glow-fade-enter-from { opacity: 0; }
+.glow-fade-leave-active { display: none; }
+
 /* Clipboard tray slide-up */
 .tray-enter-active, .tray-leave-active { transition: opacity 0.2s ease-out, transform 0.2s ease-out; }
 .tray-enter-from, .tray-leave-to { opacity: 0; transform: translateY(8px); }
@@ -66,5 +80,5 @@ body {
 :root { --wall-edge: #FFFFFF; }
 
 @media (prefers-reduced-motion: reduce) {
-    .fade-in, .pop-in, .select-pop, .tray-enter-active, .tray-leave-active { animation: none !important; transition: none !important; }
+    .fade-in, .pop-in, .select-pop, .tray-enter-active, .tray-leave-active, .glow-blob { animation: none !important; transition: none !important; }
 }
