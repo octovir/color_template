@@ -1,94 +1,108 @@
 <script setup lang="ts">
 import { useTheme } from '../composables/useTheme'
 import type { TabId } from '../types'
-import { Moon, Palette, Search, Sun } from 'lucide-vue-next'
+import { Home, Moon, Palette, Search, Sun, Wand2, type LucideIcon } from 'lucide-vue-next'
 
 defineProps<{ activeTab: TabId }>()
 const emit = defineEmits<{ 'switch-tab': [tab: TabId]; 'focus-search': [] }>()
 
 const { dark, toggleTheme } = useTheme()
 
-const tabs: { id: TabId; label: string }[] = [
-  { id: 'home', label: 'Overview' },
-  { id: 'palette', label: 'Full Palette' },
-  { id: 'picker', label: 'Palette Picker' },
+const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
+  { id: 'home', label: 'Overview', icon: Home },
+  { id: 'palette', label: 'Full Palette', icon: Palette },
+  { id: 'picker', label: 'Palette Picker', icon: Wand2 },
 ]
 </script>
 
 <template>
-  <header class="sticky top-0 z-50">
-    <div class="border-b border-[#E4E4E7]/80 bg-white/70 backdrop-blur-xl">
-      <div class="max-w-[1200px] mx-auto px-4 sm:px-8">
-        <div class="flex items-center justify-between gap-4 h-14 sm:h-16">
-          <!-- Brand -->
-          <a
-            href="#"
-            @click.prevent="emit('switch-tab', 'home')"
-            class="flex items-center gap-2.5 min-w-0 group"
-            title="Back to overview"
+  <header class="sticky top-0 z-50 px-4 sm:px-8 pt-3 sm:pt-4">
+    <div
+      class="max-w-[1200px] mx-auto rounded-2xl border border-[#E4E4E7] bg-white/80 backdrop-blur-xl shadow-[0_4px_24px_rgba(9,9,11,0.06)]"
+    >
+      <div class="flex items-center justify-between gap-3 px-3 sm:px-4 h-14 sm:h-16">
+        <!-- Brand -->
+        <a
+          href="#"
+          @click.prevent="emit('switch-tab', 'home')"
+          class="flex items-center gap-2.5 min-w-0 group"
+          title="Back to overview"
+        >
+          <div
+            class="w-8 h-8 rounded-lg bg-[#18181B] text-[#FAFAFA] flex items-center justify-center transition-transform duration-150 group-active:scale-95"
           >
-            <div
-              class="w-8 h-8 rounded-lg bg-[#18181B] text-[#FAFAFA] flex items-center justify-center transition-transform duration-150 group-active:scale-95"
-            >
-              <Palette class="w-4 h-4" />
-            </div>
-            <span class="text-[15px] font-semibold tracking-tight text-[#18181B] whitespace-nowrap">Color System</span>
-          </a>
-
-          <!-- Desktop nav -->
-          <nav class="hidden sm:flex items-stretch h-full gap-1">
-            <button
-              v-for="t in tabs"
-              :key="t.id"
-              @click="emit('switch-tab', t.id)"
-              class="relative flex items-center px-3.5 text-[13px] font-medium transition-colors"
-              :class="
-                activeTab === t.id
-                  ? 'text-[#18181B] after:absolute after:inset-x-3.5 after:bottom-0 after:h-[2px] after:rounded-full after:bg-[#18181B]'
-                  : 'text-[#71717A] hover:text-[#18181B]'
-              "
-            >
-              {{ t.label }}
-            </button>
-          </nav>
-
-          <!-- Actions -->
-          <div class="flex items-center gap-1 shrink-0">
-            <button
-              @click="emit('focus-search')"
-              title="Search colors (⌘K)"
-              class="w-9 h-9 rounded-full text-[#52525B] hover:bg-[#F4F4F5] hover:text-[#18181B] flex items-center justify-center transition-colors"
-            >
-              <Search class="w-[18px] h-[18px]" />
-            </button>
-            <button
-              @click="toggleTheme"
-              :title="dark ? 'Switch to light mode' : 'Switch to dark mode'"
-              class="w-9 h-9 rounded-full text-[#52525B] hover:bg-[#F4F4F5] hover:text-[#18181B] flex items-center justify-center transition-colors"
-            >
-              <Sun v-if="dark" class="w-[18px] h-[18px]" />
-              <Moon v-else class="w-[18px] h-[18px]" />
-            </button>
+            <Palette class="w-4 h-4" />
           </div>
-        </div>
+          <span class="text-[15px] font-semibold tracking-tight text-[#18181B] whitespace-nowrap">Color System</span>
+        </a>
 
-        <!-- Mobile nav row -->
-        <nav class="sm:hidden flex gap-1 overflow-x-auto nav-scroll border-t border-[#E4E4E7]/60">
+        <!-- Desktop segmented nav -->
+        <nav class="hidden md:flex items-center gap-1 p-1 rounded-full bg-[#F4F4F5]">
           <button
             v-for="t in tabs"
             :key="t.id"
             @click="emit('switch-tab', t.id)"
-            class="relative px-3.5 py-3 text-[13px] font-medium whitespace-nowrap transition-colors"
+            class="flex items-center gap-1.5 px-3.5 h-8 rounded-full text-[12px] font-medium transition-all"
             :class="
               activeTab === t.id
-                ? 'text-[#18181B] after:absolute after:inset-x-3.5 after:bottom-0 after:h-[2px] after:rounded-full after:bg-[#18181B]'
+                ? 'bg-white shadow-sm text-[#18181B] font-semibold'
                 : 'text-[#71717A] hover:text-[#18181B]'
             "
           >
+            <component :is="t.icon" class="w-3.5 h-3.5" />
             {{ t.label }}
           </button>
         </nav>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-1 shrink-0">
+          <button
+            @click="emit('focus-search')"
+            class="hidden sm:flex items-center gap-2 h-9 px-3 rounded-full bg-[#F4F4F5] text-[#A1A1AA] hover:text-[#52525B] hover:bg-[#E4E4E7] transition-colors w-44"
+          >
+            <Search class="w-3.5 h-3.5 shrink-0" />
+            <span class="text-[12px]">Search colors</span>
+            <kbd
+              class="ml-auto inline-flex items-center px-1.5 h-5 rounded border border-[#E4E4E7] bg-white text-[9px] font-semibold text-[#A1A1AA]"
+            >
+              ⌘K
+            </kbd>
+          </button>
+          <button
+            @click="emit('focus-search')"
+            title="Search colors (⌘K)"
+            class="sm:hidden w-9 h-9 rounded-full text-[#52525B] hover:bg-[#F4F4F5] hover:text-[#18181B] flex items-center justify-center transition-colors"
+          >
+            <Search class="w-[18px] h-[18px]" />
+          </button>
+          <button
+            @click="toggleTheme"
+            :title="dark ? 'Switch to light mode' : 'Switch to dark mode'"
+            class="w-9 h-9 rounded-full text-[#52525B] hover:bg-[#F4F4F5] hover:text-[#18181B] flex items-center justify-center transition-colors"
+          >
+            <Sun v-if="dark" class="w-[18px] h-[18px]" />
+            <Moon v-else class="w-[18px] h-[18px]" />
+          </button>
+        </div>
       </div>
+
+      <!-- Mobile segmented nav -->
+      <nav class="md:hidden flex gap-1 p-1 rounded-xl bg-[#F4F4F5] mx-3 mb-3">
+        <button
+          v-for="t in tabs"
+          :key="t.id"
+          @click="emit('switch-tab', t.id)"
+          class="flex-1 flex items-center justify-center gap-1.5 h-9 rounded-lg text-[12px] font-medium transition-all touch-manipulation"
+          :class="
+            activeTab === t.id
+              ? 'bg-white shadow-sm text-[#18181B] font-semibold'
+              : 'text-[#71717A] hover:text-[#18181B]'
+          "
+        >
+          <component :is="t.icon" class="w-3.5 h-3.5" />
+          {{ t.label }}
+        </button>
+      </nav>
     </div>
   </header>
 </template>

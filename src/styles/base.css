@@ -77,8 +77,6 @@ body {
 #palette-search:focus { background-color: #FFFFFF; }
 #palette-search::placeholder { color: #A1A1AA; }
 
-:root { --wall-edge: #FFFFFF; }
-
 @media (prefers-reduced-motion: reduce) {
     .fade-in, .pop-in, .select-pop, .tray-enter-active, .tray-leave-active, .glow-blob { animation: none !important; transition: none !important; }
 }

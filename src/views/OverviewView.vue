@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import type { ColorLibrary, PalettePreset, TabId } from '../types'
 import { flattenSwatches } from '../composables/useSearch'
 import { useClipboard } from '../composables/useClipboard'
+import { bestTextOn } from '../lib/color'
 import { Search } from 'lucide-vue-next'
 
 const props = defineProps<{ library: ColorLibrary; presets: PalettePreset[] }>()
@@ -15,6 +16,14 @@ const totalColors = computed(() => allSwatches.value.length)
 const totalFamilies = computed(() => props.library.categories.reduce((n, c) => n + c.families.length, 0))
 const totalPalettes = computed(() => props.presets.reduce((n, p) => n + p.palettes.length, 0))
 const totalTypes = computed(() => props.presets.length)
+
+// Featured family ramps on the home page — one per hue region.
+const rampFamilies = computed(() => {
+  const names = ['Blue', 'Emerald', 'Orange', 'Violet']
+  return names
+    .map((n) => props.library.categories.flatMap((c) => c.families).find((f) => f.name === n))
+    .filter((f): f is NonNullable<typeof f> => Boolean(f))
+})
 
 const tasteFamilies = computed(() => {
   const names = ['Blue', 'Emerald']
@@ -75,24 +84,52 @@ function goSearch() {
       </div>
     </section>
 
-    <!-- Signature: the whole library as a color wall -->
+    <!-- Featured family ramps -->
     <section>
-      <div class="relative rounded-xl overflow-hidden border border-[#E4E4E7] bg-white shadow-sm">
-        <div class="flex overflow-x-auto nav-scroll">
-          <button
-            v-for="s in allSwatches"
-            :key="s.family + s.shade + s.hex"
-            @click="copy(s.hex)"
-            :title="`${s.family} ${s.shade} · ${s.hex}`"
-            class="wall-tile shrink-0 w-[7px] sm:w-[8px] h-9 sm:h-10 hover:brightness-110 active:brightness-125 transition-[filter]"
-            :style="{ background: s.hex }"
-          ></button>
-        </div>
-        <div class="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-14 bg-gradient-to-r from-[var(--wall-edge)] to-transparent"></div>
-        <div class="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-14 bg-gradient-to-l from-[var(--wall-edge)] to-transparent"></div>
+      <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-4">
+        <h2 class="text-[15px] sm:text-base font-semibold text-[#18181B]">Featured families</h2>
+        <span class="text-[11px] text-[#A1A1AA]">click any shade to copy</span>
       </div>
-      <p class="text-[11px] sm:text-[12px] text-[#A1A1AA] mt-2">
-        All {{ totalColors }} colors in one strip — scroll to browse, click any swatch to copy.
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div
+          v-for="f in rampFamilies"
+          :key="f.name"
+          class="rounded-2xl border border-[#E4E4E7] bg-white overflow-hidden"
+        >
+          <div class="flex items-center justify-between gap-2 px-3.5 py-2.5">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="w-2.5 h-2.5 rounded-full shrink-0" :style="{ background: f.hex500 }"></span>
+              <span class="text-[12px] font-semibold truncate" :style="{ color: f.hex500 }">{{ f.name }}</span>
+            </div>
+            <span class="text-[10px] font-mono text-[#A1A1AA] shrink-0">{{ f.shades.length }} steps</span>
+          </div>
+          <div class="grid grid-cols-1">
+            <button
+              v-for="[shade, hex] in f.shades"
+              :key="shade"
+              @click="copy(hex.toUpperCase())"
+              :title="`${f.name} ${shade} · ${hex.toUpperCase()}`"
+              class="group relative flex items-center justify-between px-3.5 h-7 hover:brightness-110 active:brightness-125 transition-[filter] touch-manipulation"
+              :style="{ background: hex }"
+            >
+              <span
+                class="text-[9px] font-semibold font-mono opacity-0 group-hover:opacity-100 transition-opacity"
+                :style="{ color: bestTextOn(hex) }"
+              >
+                {{ shade }}
+              </span>
+              <span
+                class="text-[9px] font-mono opacity-0 group-hover:opacity-100 transition-opacity"
+                :style="{ color: bestTextOn(hex) }"
+              >
+                {{ hex.toUpperCase() }}
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <p class="text-[11px] text-[#A1A1AA] mt-2.5">
+        Four families at full scale, 50 to 950 — all {{ totalColors }} colors live in the Full Palette tab.
       </p>
     </section>
 
