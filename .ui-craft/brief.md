@@ -4,7 +4,7 @@
 A curated color library website for designers and developers: search 245 swatches (Thai/English), browse by hue family, build palettes by site type, preview on a page mockup, copy with one click.
 
 ## Design intent (v3 website, 2026-08-27)
-**This is a WEBSITE, not a dashboard.** No sidebar, no bottom tab bar — those read as app/dashboard chrome and were removed. Shell = full-width sticky header (hairline border + blur) with brand, text nav (underline on active), search + theme actions; mobile gets a second nav row under the bar. Content is centered (max-w-[1200px]) with generous vertical rhythm.
+**This is a WEBSITE, not a dashboard.** No sidebar, no bottom tab bar — those read as app/dashboard chrome and were removed. Shell = **floating rounded-2xl pill header** (blur + soft shadow, pt-3/4) with brand, **segmented nav** (zinc track, active item = white pill + shadow — desktop inline, mobile as a second rounded row inside the pill), and a **search-as-field button** (with ⌘K kbd, icon-only on xs) + theme toggle. Content is centered (max-w-[1200px]) with generous vertical rhythm.
 
 **Ambient glow (ฟุ้งของสี)** — the signature. Static, large, soft radial color washes behind the content (`AmbientGlow.vue` + `useAmbient` singleton):
 - One 3-blob scene per tab, crossfaded over 1.4s (`.glow-blob` opacity toggling, never animated position — floating orbs are an AI tell)
@@ -27,8 +27,8 @@ A curated color library website for designers and developers: search 245 swatche
 - Sticky offsets under the header use `--nav-h` (synced from the real header height): `top-[calc(var(--nav-h,0px)_+_16px)]` — Tailwind arbitrary calc needs underscores for spaces.
 
 ## Signature elements
-- **Color wall** (home hero): every swatch as a click-to-copy tile in one horizontal scroll strip, edge-faded via `--wall-edge`
-- **Home = editorial hero**: 54px headline, 16px sub, big search (Enter → Full Palette with query via `presetQuery`), wall, hairline stats row, taste ramps. No marketing cards duplicating nav.
+- **Featured family ramps** (home hero): four families (Blue/Emerald/Orange/Violet) as vertical shade columns 50→950, hover reveals shade + hex, click to copy. Replaced the 245-tile color wall (user: "too many colors").
+- **Home = editorial hero**: 54px headline, 16px sub, big search (Enter → Full Palette with query via `presetQuery`), ramps, hairline stats row, taste strips. No marketing cards duplicating nav.
 - **Full Palette**: flat sections on canvas; sticky two-row filter bar (category chips w/ scroll-spy + shade-level chips All/50–950, chart set hides under shade filter).
 - **Picker = 3-pane workspace (xl)**: sticky rail (15 site types), palette cards, sticky preview (mockup + color rows + WCAG contrast AA/AAA). lg: rail + cards, preview below. Mobile: horizontal rail, cards, preview.
 - **Clipboard tray**: last 6 copies (shared `useClipboard` history), copy-again tiles, Copy all, Clear. Desktop bottom-right, mobile bottom strip above content.
