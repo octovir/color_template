@@ -36,8 +36,8 @@ A curated color library website for designers and developers: search 245 swatche
 ## Signature elements
 - **Featured family ramps** (home hero): four families (Blue/Emerald/Orange/Violet) as vertical shade columns 50→950, hover reveals shade + hex, click to copy. Replaced the 245-tile color wall (user: "too many colors").
 - **Home = editorial hero**: 54px headline, 16px sub, big search (Enter → Full Palette with query via `presetQuery`), ramps, hairline stats row, taste strips. No marketing cards duplicating nav.
-- **Full Palette**: flat sections on canvas; sticky two-row filter bar (category chips w/ scroll-spy + shade-level chips All/50–950, chart set hides under shade filter).
-- **Picker = 3-pane workspace (xl)**: sticky rail (15 site types), palette cards, sticky preview (mockup + color rows + WCAG contrast AA/AAA). lg: rail + cards, preview below. Mobile: horizontal rail, cards, preview.
+- **Full Palette**: flat sections on canvas; **sticky glass-strong filter bar** (matches navbar opacity — user: "see-through, unlike the others" → fixed) with category chips w/ scroll-spy + shade-level chips All/50–950 (near-solid 0.78 chips), chart set hides under shade filter.
+- **Picker (minimal, 2026-08-27)**: NO rail/list — **segmented chip selector** for 15 site types (glass-track, white active pill, exactly the navbar language, horizontal scroll). Palette cards = clean glass (name + color strip + desc only, no redundant copy buttons). Right sticky **glass-strong preview** with mockup + color rows + WCAG contrast + ONE primary action (solid black "Copy CSS" pill).
 - **Clipboard tray**: last 6 copies (shared `useClipboard` history), copy-again tiles, Copy all, Clear. Desktop bottom-right, mobile bottom strip above content.
 
 ## Learned constraints
