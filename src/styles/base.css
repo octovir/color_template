@@ -33,18 +33,18 @@ body {
     border: 1px solid rgba(9, 9, 11, 0.08);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 32px rgba(9, 9, 11, 0.08);
 }
-/* Near-opaque surface for sticky bars that content scrolls behind —
-   translucency there lets page text leak through (user-flagged). */
+/* Sticky bars that content scrolls behind — VISIBLE frost (transparent enough
+   to show the blur) + heavy blur so behind-content smears beyond readability.
+   User: "the bar doesn't blur" — at 95% opacity the frost was invisible. */
 :where(.glass-solid) {
-    background: rgba(255, 255, 255, 0.95);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    backdrop-filter: blur(24px) saturate(180%);
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(48px) saturate(180%);
+    backdrop-filter: blur(48px) saturate(180%);
     border: 1px solid rgba(9, 9, 11, 0.08);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 32px rgba(9, 9, 11, 0.08);
 }
-.dark :where(.glass) { background: rgba(24, 24, 27, 0.48); border-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 32px rgba(0, 0, 0, 0.35); }
+.dark :where(.glass-solid) { background: rgba(24, 24, 27, 0.72); border-color: rgba(255, 255, 255, 0.12); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.45); }
 .dark :where(.glass-strong) { background: rgba(24, 24, 27, 0.64); border-color: rgba(255, 255, 255, 0.12); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.45); }
-.dark :where(.glass-solid) { background: rgba(24, 24, 27, 0.93); border-color: rgba(255, 255, 255, 0.12); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.45); }
 
 /* Pills: chips, ghost buttons, count badges — near-solid so they read crisp on glass bars */
 :where(.glass-chip) {
@@ -125,8 +125,12 @@ body {
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
+    to { opacity: 1; }
 }
+/* NOTE: fade-in must NOT leave a transform behind after the animation —
+   Chrome fills the interpolated end value (identity matrix), and any transform
+   on an ancestor becomes the containing block that breaks position:fixed
+   descendants (the filter bar). fill-mode: backwards releases it. */
 @keyframes popIn {
     0% { transform: scale(0.6); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
@@ -135,7 +139,7 @@ body {
     0% { transform: scale(0.98); }
     100% { transform: scale(1); }
 }
-.fade-in { animation: fadeIn 0.22s ease-out both; }
+.fade-in { animation: fadeIn 0.22s ease-out backwards; }
 .pop-in { animation: popIn 0.16s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
 .select-pop { animation: selectPop 0.15s ease-out both; }
 

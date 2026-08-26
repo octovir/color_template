@@ -47,6 +47,33 @@ const filtered = computed(() => {
 const rootEl = ref<HTMLElement | null>(null)
 const navEl = ref<HTMLElement | null>(null)
 
+// ---- sticky-bar workaround: Chromium fails to blur content scrolling behind a
+// backdrop-filter element whose sticky `top` ≠ 0 (verified empirically). So the
+// bar is static at the top of the page and switches to `position:fixed` (which
+// blurs correctly) once the page scrolls past its natural position. A spacer
+// keeps the layout from jumping. ----
+const barFixed = ref(false)
+const barHeight = ref(0)
+let naturalTop = 0
+let fixThreshold = 0
+
+function checkBarPosition() {
+  const bar = navEl.value
+  const root = rootEl.value
+  if (!bar || !root || root.offsetParent === null) return // hidden view (v-show)
+  const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 0
+  if (!barFixed.value) {
+    naturalTop = bar.getBoundingClientRect().top + window.scrollY
+    fixThreshold = naturalTop - navH - 12
+    if (window.scrollY > fixThreshold) {
+      barHeight.value = bar.offsetHeight
+      barFixed.value = true
+    }
+  } else if (window.scrollY <= fixThreshold) {
+    barFixed.value = false
+  }
+}
+
 function slug(cat: string) {
   return 'pal-cat-' + cat.toLowerCase().replace(/[^a-z0-9]+/g, '-')
 }
@@ -99,14 +126,21 @@ function copyFamilyCss(name: string) {
 }
 
 function onScroll() {
+  checkBarPosition()
   updateActiveCat()
 }
-onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
+onMounted(() => {
+  window.addEventListener('scroll', onScroll, { passive: true })
+  checkBarPosition()
+})
 onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
 watch(
   () => props.active,
   (on) => {
-    if (on) requestAnimationFrame(updateActiveCat)
+    if (on) requestAnimationFrame(() => {
+      checkBarPosition()
+      updateActiveCat()
+    })
   },
 )
 </script>
@@ -150,13 +184,21 @@ watch(
       </div>
     </div>
 
-    <!-- Sticky filters: categories + shade levels (near-opaque so page content
-         scrolling behind the bar can't leak through) -->
+    <!-- Sticky filters: categories + shade levels. The STICKY lives on an outer
+         wrapper and the glass/blur on an inner element — backdrop-filter on the
+         sticky element itself fails to blur scrolling content in Chrome
+         (navbar does the same and blurs fine). -->
     <div
       ref="navEl"
-      class="glass-solid sticky top-[calc(var(--nav-h,0px)_+_12px)] z-30 mt-6 mb-6 w-fit max-w-full rounded-2xl"
+      class="z-30 mt-6 mb-6 w-fit max-w-full"
+      :class="
+        barFixed
+          ? 'fixed top-[calc(var(--nav-h,0px)_+_12px)] left-1/2 -translate-x-1/2 !mt-0 !mb-0'
+          : ''
+      "
     >
-      <div class="flex items-center gap-1.5 p-1.5 overflow-x-auto nav-scroll snap-x snap-proximity">
+      <div class="glass-solid rounded-2xl">
+        <div class="flex items-center gap-1.5 p-1.5 overflow-x-auto nav-scroll snap-x snap-proximity">
         <button
           v-for="chip in navChips"
           :key="chip.id"
@@ -184,8 +226,12 @@ watch(
         >
           {{ s }}
         </button>
+        </div>
       </div>
     </div>
+
+    <!-- Spacer that keeps the layout from jumping while the bar is fixed -->
+    <div v-if="barFixed" aria-hidden="true" :style="{ height: barHeight + 'px' }"></div>
 
     <div ref="rootEl" class="space-y-12">
       <section
