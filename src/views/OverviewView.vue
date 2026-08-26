@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import type { ColorLibrary, PalettePreset, TabId } from '../types'
 import { flattenSwatches } from '../composables/useSearch'
 import { useClipboard } from '../composables/useClipboard'
-import { ArrowRight, Palette, Wand2 } from 'lucide-vue-next'
+import { Search } from 'lucide-vue-next'
 
 const props = defineProps<{ library: ColorLibrary; presets: PalettePreset[] }>()
-const emit = defineEmits<{ navigate: [tab: TabId] }>()
+const emit = defineEmits<{ navigate: [tab: TabId]; search: [query: string] }>()
 
 const { copy } = useClipboard()
 
@@ -29,40 +29,51 @@ const stats = computed(() => [
   { value: totalPalettes.value, label: 'ready palettes' },
   { value: totalTypes.value, label: 'site types' },
 ])
+
+const query = ref('')
+
+function goSearch() {
+  if (query.value.trim()) emit('search', query.value.trim())
+  else emit('navigate', 'palette')
+}
 </script>
 
 <template>
   <div class="space-y-10 sm:space-y-14 fade-in">
-    <!-- Hero -->
-    <section class="pt-2 sm:pt-6">
-      <div class="max-w-2xl">
-        <h1
-          class="text-[26px] leading-[1.25] sm:text-4xl sm:leading-[1.15] lg:text-[44px] lg:leading-[1.1] font-semibold tracking-tight text-[#18181B] text-balance"
-        >
-          Every color your interface needs, curated and one click away.
-        </h1>
-        <p class="text-[14px] sm:text-[15px] leading-relaxed text-[#71717A] mt-3 sm:mt-4 max-w-xl">
-          245 hand-vetted swatches across 22 hue families, plus 46 ready-made palettes for 15 site types.
-          Standards-based, contrast-checked, and copied to your clipboard with one click.
-        </p>
-        <div class="flex flex-wrap items-center gap-2.5 mt-6 sm:mt-7">
-          <button
-            @click="emit('navigate', 'palette')"
-            class="h-10 px-4 sm:px-5 rounded-lg bg-[#18181B] text-[#FAFAFA] text-[13px] font-semibold hover:bg-[#27272A] active:scale-[0.98] transition-all"
-          >
-            Browse the full palette
-          </button>
-          <button
-            @click="emit('navigate', 'picker')"
-            class="h-10 px-4 sm:px-5 rounded-lg bg-white border border-[#E4E4E7] text-[13px] font-medium text-[#18181B] hover:border-[#D4D4D8] hover:bg-[#F4F4F5] active:scale-[0.98] transition-all"
-          >
-            Find a palette
-          </button>
-        </div>
-      </div>
+    <!-- Intro + search -->
+    <section class="pt-2 lg:pt-0">
+      <h1 class="text-[22px] sm:text-[26px] lg:text-3xl font-semibold tracking-tight text-[#18181B] text-balance">
+        Curated colors for your interface
+      </h1>
+      <p class="text-[13px] sm:text-[14px] text-[#71717A] mt-1.5 max-w-xl leading-relaxed">
+        245 hand-vetted swatches across 22 hue families, plus 46 ready-made palettes for 15 site types. Search in
+        Thai or English, or browse the wall below.
+      </p>
 
-      <!-- Signature: the whole library as a color wall -->
-      <div class="relative mt-8 sm:mt-10 rounded-xl overflow-hidden border border-[#E4E4E7] bg-white shadow-sm">
+      <!-- Big search -->
+      <div class="relative mt-5 max-w-xl">
+        <Search
+          class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A1A1AA] pointer-events-none"
+        />
+        <input
+          v-model="query"
+          type="text"
+          placeholder="Search Thai or English… e.g. สีฟ้าเข้ม, dark teal, 950"
+          @keydown.enter="goSearch"
+          class="h-12 w-full bg-white border border-[#E4E4E7] rounded-xl pl-11 pr-16 text-[13px] text-[#18181B] outline-none focus:border-[#18181B] focus:ring-2 focus:ring-[#18181B]/10 transition-all"
+        />
+        <kbd
+          class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center px-2 h-6 rounded-md border border-[#E4E4E7] bg-[#F4F4F5] text-[10px] font-semibold text-[#71717A]"
+        >
+          Enter ↵
+        </kbd>
+      </div>
+      <p class="text-[11px] text-[#A1A1AA] mt-2">Press Enter to open the full palette with your query applied.</p>
+    </section>
+
+    <!-- Signature: the whole library as a color wall -->
+    <section>
+      <div class="relative rounded-xl overflow-hidden border border-[#E4E4E7] bg-white shadow-sm">
         <div class="flex overflow-x-auto nav-scroll">
           <button
             v-for="s in allSwatches"
@@ -82,62 +93,11 @@ const stats = computed(() => [
     </section>
 
     <!-- Stats -->
-    <section
-      class="grid grid-cols-2 sm:grid-cols-4 sm:divide-x divide-[#E4E4E7] border-y border-[#E4E4E7]"
-    >
+    <section class="grid grid-cols-2 sm:grid-cols-4 sm:divide-x divide-[#E4E4E7] border-y border-[#E4E4E7]">
       <div v-for="s in stats" :key="s.label" class="px-2 sm:px-6 py-4 sm:py-5">
         <div class="text-xl sm:text-2xl font-semibold tracking-tight text-[#18181B] tabular-nums">{{ s.value }}</div>
         <div class="text-[11px] sm:text-[12px] text-[#71717A] mt-0.5">{{ s.label }}</div>
       </div>
-    </section>
-
-    <!-- Section cards -->
-    <section class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <button
-        @click="emit('navigate', 'palette')"
-        class="group text-left bg-white rounded-xl border border-[#E4E4E7] p-6 hover:border-[#D4D4D8] hover:shadow-sm active:scale-[0.99] transition-all"
-      >
-        <div class="flex items-start justify-between gap-4">
-          <div class="min-w-0">
-            <h2 class="text-[15px] font-semibold text-[#18181B]">Full Palette</h2>
-            <p class="text-[13px] leading-relaxed text-[#71717A] mt-1.5">
-              The entire library in one place — 245 swatches across 22 families, from pure white and black to every
-              hue, plus a 12-color categorical set for charts. Filter live by name, hex, or shade.
-            </p>
-          </div>
-          <div class="w-10 h-10 rounded-lg bg-[#F4F4F5] text-[#52525B] flex items-center justify-center shrink-0">
-            <Palette class="w-5 h-5" />
-          </div>
-        </div>
-        <span
-          class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#18181B] group-hover:gap-2.5 transition-all"
-        >
-          Open library <ArrowRight class="w-4 h-4" />
-        </span>
-      </button>
-
-      <button
-        @click="emit('navigate', 'picker')"
-        class="group text-left bg-white rounded-xl border border-[#E4E4E7] p-6 hover:border-[#D4D4D8] hover:shadow-sm active:scale-[0.99] transition-all"
-      >
-        <div class="flex items-start justify-between gap-4">
-          <div class="min-w-0">
-            <h2 class="text-[15px] font-semibold text-[#18181B]">Palette Picker</h2>
-            <p class="text-[13px] leading-relaxed text-[#71717A] mt-1.5">
-              Tell us what you're building — 15 site types, 46 hand-tuned palettes. Preview any palette live on a
-              page mockup, check its contrast, then copy the colors or grab them as CSS variables.
-            </p>
-          </div>
-          <div class="w-10 h-10 rounded-lg bg-[#F4F4F5] text-[#52525B] flex items-center justify-center shrink-0">
-            <Wand2 class="w-5 h-5" />
-          </div>
-        </div>
-        <span
-          class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#18181B] group-hover:gap-2.5 transition-all"
-        >
-          Open picker <ArrowRight class="w-4 h-4" />
-        </span>
-      </button>
     </section>
 
     <!-- Taste strips -->

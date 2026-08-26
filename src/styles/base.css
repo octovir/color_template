@@ -11,25 +11,17 @@ body {
 .nav-scroll { scrollbar-width: none; }
 .nav-scroll::-webkit-scrollbar { display: none; }
 
-/* Header tabs — text links with an underline indicator (desktop + mobile row) */
-.nav-tab { position: relative; }
-.nav-tab::after {
-    content: '';
-    position: absolute;
-    left: 0.875rem;
-    right: 0.875rem;
-    bottom: 0.5rem;
-    height: 2px;
-    border-radius: 2px;
-    background: #18181B;
-    opacity: 0;
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 0.18s ease-out, opacity 0.18s ease-out;
-}
-.nav-tab:hover::after { opacity: 0.45; transform: scaleX(1); }
-.nav-tab-active::after { opacity: 1; transform: scaleX(1); }
-.dark .nav-tab::after { background: #FAFAFA; }
+/* Shade-level filter chips (50..950) — same language as category chips, smaller */
+.shade-chip { background-color: #FFFFFF; border: 1px solid #E4E4E7; color: #52525B; }
+.shade-chip:hover { background-color: #F4F4F5; color: #18181B; }
+.shade-chip.shade-active { background-color: #18181B; color: #FFFFFF; border-color: transparent; }
+.dark .shade-chip { background-color: #18181B; border-color: #27272A; color: #A1A1AA; }
+.dark .shade-chip:hover { background-color: #27272A; color: #FFFFFF; }
+.dark .shade-chip.shade-active { background-color: #FAFAFA; color: #09090B; }
+
+/* Clipboard tray slide-up */
+.tray-enter-active, .tray-leave-active { transition: opacity 0.2s ease-out, transform 0.2s ease-out; }
+.tray-enter-from, .tray-leave-to { opacity: 0; transform: translateY(8px); }
 
 /* Category tab bar — mobile-first pill chips with active tracking (desktop restored at sm+) */
 .cat-chip { background-color: #FFFFFF; border: 1px solid #E4E4E7; color: #52525B; box-shadow: 0 1px 2px rgba(9, 9, 11, 0.05); }
@@ -74,6 +66,5 @@ body {
 :root { --wall-edge: #FFFFFF; }
 
 @media (prefers-reduced-motion: reduce) {
-    .nav-tab::after { transition: none; }
-    .fade-in, .pop-in, .select-pop { animation: none !important; }
+    .fade-in, .pop-in, .select-pop, .tray-enter-active, .tray-leave-active { animation: none !important; transition: none !important; }
 }

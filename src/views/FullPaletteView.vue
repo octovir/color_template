@@ -6,11 +6,43 @@ import { useClipboard } from '../composables/useClipboard'
 import { bestTextOn } from '../lib/color'
 import { Search, SearchX, X } from 'lucide-vue-next'
 
-const props = defineProps<{ library: ColorLibrary; active: boolean }>()
+const props = defineProps<{ library: ColorLibrary; active: boolean; presetQuery?: string | null }>()
 const { copy, copyText } = useClipboard()
 
 const query = ref('')
+
+// Query coming from the Overview search box.
+watch(
+  () => props.presetQuery,
+  (q) => {
+    if (q) query.value = q
+  },
+)
+
 const result = computed(() => searchLibrary(props.library.categories, props.library.chartColors, query.value))
+
+// ---- shade-level filter (50..950, applied on top of the search) ----
+const SHADES = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950']
+const shadeFilter = ref<string | null>(null)
+
+const filtered = computed(() => {
+  if (!shadeFilter.value) return result.value
+  return {
+    categories: result.value.categories
+      .map((cat) => ({
+        ...cat,
+        families: cat.families
+          .map((f) => ({ ...f, shades: f.shades.filter(([s]) => s === shadeFilter.value) }))
+          .filter((f) => f.shades.length > 0),
+      }))
+      .filter((c) => c.families.length > 0),
+    chartColors: [],
+    total: result.value.categories
+      .flatMap((c) => c.families)
+      .flatMap((f) => f.shades)
+      .filter(([s]) => s === shadeFilter.value).length,
+  }
+})
 
 const rootEl = ref<HTMLElement | null>(null)
 const navEl = ref<HTMLElement | null>(null)
@@ -38,7 +70,7 @@ function updateActiveCat() {
   if (!nav || !root || root.offsetParent === null) return // hidden view (v-show)
   const sections = [...root.querySelectorAll('.cat-block')] as HTMLElement[]
   if (!sections.length) return
-  const hh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 76
+  const hh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 0
   const probe = hh + 160
   let current = sections[0]
   for (const sec of sections) if (sec.getBoundingClientRect().top <= probe) current = sec
@@ -93,9 +125,7 @@ watch(
       </div>
       <div class="flex items-center gap-2 w-full lg:w-auto">
         <div class="relative flex-1 lg:w-80">
-          <Search
-            class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#A1A1AA] pointer-events-none"
-          />
+          <Search class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#A1A1AA] pointer-events-none" />
           <input
             id="palette-search"
             v-model="query"
@@ -115,33 +145,53 @@ watch(
         <span
           class="shrink-0 text-[11px] font-medium text-[#71717A] bg-white border border-[#E4E4E7] px-2.5 h-11 flex items-center rounded-lg tabular-nums"
         >
-          {{ result.total }} colors
+          {{ filtered.total }} colors
         </span>
       </div>
     </div>
 
-    <!-- Sticky category chips -->
+    <!-- Sticky filters: categories + shade levels -->
     <div
       ref="navEl"
-      class="sticky top-[calc(var(--nav-h,76px)_+_14px)] z-30 flex items-center gap-1.5 p-1.5 bg-white/85 backdrop-blur-xl border border-[#E4E4E7] rounded-full shadow-[0_2px_8px_rgba(9,9,11,0.05)] w-fit max-w-full overflow-x-auto nav-scroll snap-x snap-proximity my-6"
+      class="sticky top-[calc(var(--nav-h,0px)_+_12px)] z-30 mt-6 mb-6 w-fit max-w-full rounded-2xl border border-[#E4E4E7] bg-white/85 backdrop-blur-xl shadow-[0_2px_8px_rgba(9,9,11,0.05)]"
     >
-      <button
-        v-for="chip in navChips"
-        :key="chip.id"
-        @click="jumpToCat(chip.id)"
-        class="cat-chip shrink-0 snap-start px-4 py-2 rounded-full text-[12px] font-medium transition-colors touch-manipulation"
-        :class="activeCat === chip.id ? 'cat-active' : ''"
-      >
-        {{ chip.label }} <span class="cat-count">{{ chip.count }}</span>
-      </button>
+      <div class="flex items-center gap-1.5 p-1.5 overflow-x-auto nav-scroll snap-x snap-proximity">
+        <button
+          v-for="chip in navChips"
+          :key="chip.id"
+          @click="jumpToCat(chip.id)"
+          class="cat-chip shrink-0 snap-start px-4 py-2 rounded-full text-[12px] font-medium transition-colors touch-manipulation"
+          :class="activeCat === chip.id ? 'cat-active' : ''"
+        >
+          {{ chip.label }} <span class="cat-count">{{ chip.count }}</span>
+        </button>
+      </div>
+      <div class="flex items-center gap-1 p-1.5 border-t border-[#E4E4E7]/70 overflow-x-auto nav-scroll">
+        <button
+          @click="shadeFilter = null"
+          class="shade-chip shrink-0 px-3 py-1.5 rounded-full text-[11px] font-medium transition-colors touch-manipulation"
+          :class="shadeFilter === null ? 'shade-active' : ''"
+        >
+          All
+        </button>
+        <button
+          v-for="s in SHADES"
+          :key="s"
+          @click="shadeFilter = shadeFilter === s ? null : s"
+          class="shade-chip shrink-0 px-3 py-1.5 rounded-full text-[11px] font-medium font-mono transition-colors touch-manipulation"
+          :class="shadeFilter === s ? 'shade-active' : ''"
+        >
+          {{ s }}
+        </button>
+      </div>
     </div>
 
     <div ref="rootEl" class="space-y-12">
       <section
-        v-for="cat in result.categories"
+        v-for="cat in filtered.categories"
         :key="cat.cat"
         :id="slug(cat.cat)"
-        class="cat-block scroll-mt-36"
+        class="cat-block scroll-mt-44"
       >
         <div class="flex items-baseline justify-between gap-4 mb-5">
           <div class="min-w-0">
@@ -190,8 +240,8 @@ watch(
         </div>
       </section>
 
-      <!-- Categorical / chart set -->
-      <section id="pal-cat-categorical" class="cat-block scroll-mt-36">
+      <!-- Categorical / chart set (hidden while a shade filter is active) -->
+      <section v-if="!shadeFilter" id="pal-cat-categorical" class="cat-block scroll-mt-44">
         <div class="flex items-baseline justify-between gap-4 mb-5">
           <div class="min-w-0">
             <h3 class="text-[17px] sm:text-lg font-semibold tracking-tight text-[#18181B]">Categorical &amp; Charts</h3>
@@ -201,12 +251,12 @@ watch(
             </p>
           </div>
           <span class="shrink-0 text-[11px] font-medium text-[#A1A1AA] whitespace-nowrap tabular-nums">
-            {{ result.chartColors.length }} colors
+            {{ filtered.chartColors.length }} colors
           </span>
         </div>
         <div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-12 gap-1.5 sm:gap-2">
           <div
-            v-for="(c, i) in result.chartColors"
+            v-for="(c, i) in filtered.chartColors"
             :key="c.name"
             class="swatch cursor-pointer group flex flex-col hover:-translate-y-0.5 transition-transform duration-150 touch-manipulation"
             @click="copy(c.hex.toUpperCase())"
@@ -225,15 +275,17 @@ watch(
       </section>
     </div>
 
-    <div v-if="query.trim() && result.total === 0" class="text-center py-16">
+    <div v-if="filtered.total === 0" class="text-center py-16">
       <SearchX class="w-8 h-8 mx-auto text-[#A1A1AA] mb-3" />
       <h3 class="text-[15px] font-semibold text-[#18181B]">No colors found</h3>
-      <p class="text-[12px] text-[#71717A] mt-1 mb-5">Try another word — Thai or English, a shade level, or a hex code. For example:</p>
+      <p class="text-[12px] text-[#71717A] mt-1 mb-5">
+        Try another word — Thai or English, a shade level, or a hex code. For example:
+      </p>
       <div class="flex flex-wrap justify-center gap-2">
         <button
           v-for="ex in ['สีฟ้าเข้ม', 'dark teal', 'pastel', '#8B5CF6']"
           :key="ex"
-          @click="query = ex"
+          @click="query = ex; shadeFilter = null"
           class="text-[11px] font-medium text-[#52525B] bg-white border border-[#E4E4E7] px-3 py-1.5 rounded-full hover:border-[#D4D4D8] transition-colors"
         >
           {{ ex }}
