@@ -20,25 +20,25 @@ const mutedBorder = computed(() => hexToRgba(C.value.Text, 0.12))
     <div class="flex items-center justify-between px-4 py-2.5" :style="{ background: C.Surface, borderBottom: `1px solid ${mutedBorder}` }">
       <div class="flex items-center gap-1.5">
         <div class="w-3 h-3 rounded-full" :style="{ background: C.Primary }"></div>
-        <span class="text-[11px] font-extrabold tracking-tight" :style="{ color: C.Text }">BRAND</span>
+        <span class="text-[11px] font-semibold tracking-tight" :style="{ color: C.Text }">Brand</span>
       </div>
-      <div class="flex items-center gap-3 text-[9px] font-bold">
+      <div class="flex items-center gap-3 text-[9px] font-medium">
         <span :style="{ color: C.Secondary }">Home</span>
         <span :style="{ color: C.Secondary }">Products</span>
         <span :style="{ color: C.Secondary }">About</span>
-        <span class="px-2 py-0.5 rounded text-[8px] font-extrabold" :style="{ background: C.Accent, color: onAccent }">CTA</span>
+        <span class="px-2 py-0.5 rounded text-[8px] font-semibold" :style="{ background: C.Accent, color: onAccent }">CTA</span>
       </div>
     </div>
 
     <div class="px-4 py-5">
       <div class="rounded-lg px-4 py-5" :style="{ background: C.Primary }">
-        <h5 class="text-[13px] font-extrabold tracking-tight" :style="{ color: onPrimary }">Your headline goes here</h5>
+        <h5 class="text-[13px] font-semibold tracking-tight" :style="{ color: onPrimary }">Your headline goes here</h5>
         <p class="text-[9px] mt-1 mb-3" :style="{ color: hexToRgba(onPrimary, 0.8) }">
           A short subline describing the product or service.
         </p>
         <div class="flex gap-1.5">
-          <span class="px-2.5 py-1 rounded text-[8px] font-extrabold" :style="{ background: C.Accent, color: onAccent }">Primary action</span>
-          <span class="px-2.5 py-1 rounded text-[8px] font-extrabold" :style="{ background: hexToRgba(onPrimary, 0.15), color: onPrimary }">Secondary</span>
+          <span class="px-2.5 py-1 rounded text-[8px] font-semibold" :style="{ background: C.Accent, color: onAccent }">Primary action</span>
+          <span class="px-2.5 py-1 rounded text-[8px] font-semibold" :style="{ background: hexToRgba(onPrimary, 0.15), color: onPrimary }">Secondary</span>
         </div>
       </div>
 

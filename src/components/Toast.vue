@@ -8,7 +8,7 @@ const { message, visible } = useToast()
   <div
     id="toast"
     style="bottom: calc(2rem + env(safe-area-inset-bottom))"
-    class="fixed left-1/2 transform -translate-x-1/2 bg-[#09090B] text-white px-6 py-3.5 rounded-lg shadow-2xl text-[13px] font-bold tracking-wide transition-all duration-300 pointer-events-none z-50 flex items-center gap-3"
+    class="fixed left-1/2 transform -translate-x-1/2 bg-[#09090B] text-white px-5 py-3 rounded-full shadow-2xl text-[12px] font-semibold transition-all duration-300 pointer-events-none z-50 flex items-center gap-2.5 max-w-[calc(100vw-2rem)]"
     :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
   >
     <div class="w-2 h-2 rounded-full bg-[#10B981]"></div>

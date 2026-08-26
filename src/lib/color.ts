@@ -20,3 +20,18 @@ export function luminance(hex: Hex): number {
 export function bestTextOn(hex: Hex): string {
   return luminance(hex) > 0.45 ? '#18181B' : '#FFFFFF'
 }
+
+// WCAG 2.x relative-luminance contrast ratio between two colors (1..21).
+export function contrastRatio(a: Hex, b: Hex): number {
+  const la = luminance(a)
+  const lb = luminance(b)
+  const [hi, lo] = la > lb ? [la, lb] : [lb, la]
+  return (hi + 0.05) / (lo + 0.05)
+}
+
+// Normal-text WCAG level for a ratio (AA = 4.5:1, AAA = 7:1).
+export function wcagLevel(ratio: number): 'AAA' | 'AA' | null {
+  if (ratio >= 7) return 'AAA'
+  if (ratio >= 4.5) return 'AA'
+  return null
+}
