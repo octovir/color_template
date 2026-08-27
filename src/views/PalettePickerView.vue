@@ -157,9 +157,9 @@ watch(activePalette, (p) => {
       <!-- Sticky preview -->
       <div
         v-if="activePalette"
-        class="mt-8 lg:mt-0 lg:sticky lg:top-[calc(var(--nav-h,0px)_+_16px)] lg:max-h-[calc(100vh_-_var(--nav-h,0px)_-_2rem)] lg:overflow-y-auto nav-scroll"
+        class="mt-8 lg:mt-0 lg:sticky lg:top-[calc(var(--nav-h,0px)_+_16px)] lg:max-h-[calc(100vh_-_var(--nav-h,0px)_-_2rem)] lg:overflow-y-auto"
       >
-        <div class="glass-strong rounded-2xl p-5 fade-in">
+        <div class="glass-strong rounded-2xl p-4 fade-in">
           <div class="flex items-center justify-between gap-2 mb-1">
             <h4 class="text-[14px] font-semibold text-[#18181B]">{{ activePalette.name }}</h4>
             <button
@@ -170,43 +170,48 @@ watch(activePalette, (p) => {
               Copy CSS
             </button>
           </div>
-          <p class="text-[11px] text-[#71717A] leading-relaxed mb-4">{{ activePalette.desc }}</p>
+          <p class="text-[11px] text-[#71717A] leading-relaxed mb-3.5">{{ activePalette.desc }}</p>
 
-          <PreviewMockup :palette="activePalette" />
+          <PreviewMockup :key="activePalette.name" :palette="activePalette" class="fade-in" />
 
           <!-- Colors -->
-          <div class="mt-4 space-y-1">
-            <div
-              v-for="[role, hex] in activePalette.colors"
-              :key="role"
-              @click="copy(hex)"
-              class="cursor-pointer flex items-center gap-3 px-2.5 py-2 rounded-lg hover:bg-[#F4F4F5] transition-colors touch-manipulation"
-              title="Click to copy"
-            >
-              <div class="w-6 h-6 rounded-md border border-black/5 shrink-0" :style="{ background: hex }"></div>
-              <span class="text-[11px] font-medium text-[#27272A] w-24">{{ role }}</span>
-              <span class="text-[10px] font-mono text-[#71717A]">{{ hex }}</span>
-              <span class="ml-auto text-[9px] font-semibold text-[#A1A1AA]">COPY</span>
+          <div class="mt-3.5">
+            <div class="flex items-baseline justify-between mb-1">
+              <h4 class="text-[12px] font-semibold text-[#18181B]">Colors</h4>
+              <span class="text-[10px] text-[#A1A1AA]">Click to copy</span>
+            </div>
+            <div class="grid grid-cols-2 gap-x-3 gap-y-0.5">
+              <div
+                v-for="[role, hex] in activePalette.colors"
+                :key="role"
+                @click="copy(hex)"
+                class="cursor-pointer flex items-center gap-1.5 px-2 py-1.5 rounded-md hover:bg-[#F4F4F5] transition-colors touch-manipulation min-w-0"
+                :title="`Copy ${role} ${hex}`"
+              >
+                <div class="w-5 h-5 rounded-md border border-black/5 shrink-0" :style="{ background: hex }"></div>
+                <span class="text-[10px] font-medium text-[#27272A] truncate min-w-0 flex-1">{{ role }}</span>
+                <span class="text-[9px] font-mono text-[#71717A] tabular-nums shrink-0">{{ hex }}</span>
+              </div>
             </div>
           </div>
 
           <!-- Contrast check -->
-          <div class="mt-4 pt-4 border-t border-[#F4F4F5]">
-            <div class="flex items-baseline justify-between mb-2">
+          <div class="mt-3.5 pt-3 border-t border-[#F4F4F5]">
+            <div class="flex items-baseline justify-between mb-1.5">
               <h4 class="text-[12px] font-semibold text-[#18181B]">Contrast check</h4>
-              <span class="text-[10px] text-[#A1A1AA]">WCAG AA · normal text needs 4.5:1</span>
+              <span class="text-[10px] text-[#A1A1AA]">WCAG AA · 4.5:1</span>
             </div>
-            <div class="space-y-1.5">
+            <div class="space-y-1">
               <div
                 v-for="row in contrastRows"
                 :key="row.label"
-                class="flex items-center gap-3 px-2.5 py-1.5 rounded-lg border border-[#E4E4E7]"
+                class="flex items-center gap-2 px-2 py-1.5 rounded-md border border-[#E4E4E7]"
               >
-                <div class="w-5 h-5 rounded-md border border-black/5 shrink-0" :style="{ background: row.fg }"></div>
-                <span class="text-[11px] font-medium text-[#18181B] w-32 sm:w-44">{{ row.label }}</span>
-                <span class="text-[11px] font-mono text-[#71717A] tabular-nums">{{ row.ratio.toFixed(1) }}:1</span>
+                <div class="w-4 h-4 rounded border border-black/5 shrink-0" :style="{ background: row.fg }"></div>
+                <span class="text-[10px] font-medium text-[#18181B] truncate min-w-0 flex-1">{{ row.label }}</span>
+                <span class="text-[10px] font-mono text-[#71717A] tabular-nums shrink-0">{{ row.ratio.toFixed(1) }}:1</span>
                 <span
-                  class="ml-auto text-[9px] font-semibold px-1.5 py-0.5 rounded"
+                  class="text-[8px] font-semibold px-1.5 py-0.5 rounded shrink-0"
                   :class="row.level ? 'bg-[#18181B] text-[#FAFAFA]' : 'bg-[#F4F4F5] text-[#A1A1AA]'"
                 >
                   {{ row.level ?? 'below AA' }}
