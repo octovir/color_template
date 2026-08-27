@@ -38,7 +38,7 @@ const url = computed(() => {
   >
     <!-- Browser chrome -->
     <div
-      class="flex items-center gap-2 px-3 py-1.5"
+      class="flex items-center gap-2 px-3 py-1"
       :style="{ background: C.Surface, borderBottom: `1px solid ${mutedBorder}` }"
     >
       <div class="flex items-center gap-1.5 shrink-0">
@@ -56,7 +56,7 @@ const url = computed(() => {
 
     <!-- Navbar -->
     <div
-      class="flex items-center justify-between gap-2 px-4 py-2.5 min-w-0"
+      class="flex items-center justify-between gap-2 px-4 py-2 min-w-0"
       :style="{ background: C.Surface, borderBottom: `1px solid ${mutedBorder}` }"
     >
       <div class="flex items-center gap-1.5 min-w-0">
@@ -72,13 +72,13 @@ const url = computed(() => {
     </div>
 
     <!-- Hero -->
-    <div class="px-4 pt-4 pb-3.5" :style="{ background: C.Background }">
-      <div class="rounded-xl px-4 py-4" :style="{ background: C.Primary }">
+    <div class="px-4 pt-3 pb-3" :style="{ background: C.Background }">
+      <div class="rounded-xl px-4 py-3.5" :style="{ background: C.Primary }">
         <h5 class="text-[14px] font-bold tracking-tight leading-snug" :style="{ color: onPrimary }">
           Build something beautiful
         </h5>
-        <p class="text-[10px] mt-1 mb-3.5 leading-relaxed" :style="{ color: onPrimarySub }">
-          A short subline describing the product or service.
+        <p class="text-[10px] mt-1 mb-3 leading-relaxed" :style="{ color: onPrimarySub }">
+          A short subline describing the product.
         </p>
         <div class="flex flex-wrap items-center gap-2">
           <span class="px-3 py-1.5 rounded-lg text-[10px] font-bold" :style="{ background: C.Accent, color: onAccent }">
@@ -95,24 +95,24 @@ const url = computed(() => {
     </div>
 
     <!-- Content: asymmetric feature card + list card -->
-    <div class="px-4 pb-4 grid grid-cols-5 gap-2" :style="{ background: C.Background }">
-      <div class="col-span-3 rounded-lg p-3" :style="{ background: C.Surface, border: `1px solid ${mutedBorder}` }">
-        <div class="w-5 h-5 rounded-md mb-2" :style="{ background: C.Primary }"></div>
-        <div class="h-2 rounded-sm mb-1.5" :style="{ background: C.Text, opacity: 0.8 }"></div>
-        <div class="h-2 rounded-sm mb-1.5 w-5/6" :style="{ background: C.Text, opacity: 0.4 }"></div>
+    <div class="px-4 pb-3 grid grid-cols-5 gap-2" :style="{ background: C.Background }">
+      <div class="col-span-3 rounded-lg p-2.5" :style="{ background: C.Surface, border: `1px solid ${mutedBorder}` }">
+        <div class="w-[18px] h-[18px] rounded-md mb-1.5" :style="{ background: C.Primary }"></div>
+        <div class="h-2 rounded-sm mb-1" :style="{ background: C.Text, opacity: 0.8 }"></div>
+        <div class="h-2 rounded-sm mb-1 w-5/6" :style="{ background: C.Text, opacity: 0.4 }"></div>
         <div class="h-2 rounded-sm w-2/3" :style="{ background: C.Text, opacity: 0.25 }"></div>
       </div>
-      <div class="col-span-2 rounded-lg p-3" :style="{ background: C.Surface, border: `1px solid ${mutedBorder}` }">
-        <div v-for="(dot, i) in ['Accent', 'Primary', 'Accent']" :key="i" class="flex items-center gap-1.5 mb-1.5 last:mb-0">
+      <div class="col-span-2 rounded-lg p-2.5" :style="{ background: C.Surface, border: `1px solid ${mutedBorder}` }">
+        <div v-for="(dot, i) in ['Accent', 'Primary', 'Accent']" :key="i" class="flex items-center gap-1.5 mb-1 last:mb-0">
           <span class="w-2 h-2 rounded-full shrink-0" :style="{ background: C[dot as 'Accent' | 'Primary'] }"></span>
-          <span class="h-2 rounded-sm flex-1" :style="{ background: C.Text, opacity: [0.7, 0.5, 0.35][i] }"></span>
+          <span class="h-2 rounded-sm flex-1" :style="{ background: C.Text, opacity: [0.7, 0.5, 0.5][i] }"></span>
         </div>
       </div>
     </div>
 
     <!-- Footer -->
     <div
-      class="px-4 py-2.5 flex items-center justify-between gap-3 min-w-0"
+      class="px-4 py-2 flex items-center justify-between gap-3 min-w-0"
       :style="{ background: C.Surface, borderTop: `1px solid ${mutedBorder}` }"
     >
       <span class="text-[9px] font-semibold shrink-0" :style="{ color: hexToRgba(C.Text, 0.65) }">© 2026 Brand</span>

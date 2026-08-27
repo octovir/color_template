@@ -87,16 +87,15 @@ watch(activePalette, (p) => {
 <template>
   <div class="fade-in">
     <!-- Page header -->
-    <div class="pb-6 border-b border-[#E4E4E7]">
+    <div class="pb-4 border-b border-[#E4E4E7]">
       <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-[#18181B]">Palette picker</h2>
       <p class="text-[13px] sm:text-[14px] text-[#71717A] mt-1.5 max-w-2xl leading-relaxed">
-        Choose a site type, pick a hand-tuned palette, and preview it live with a contrast check — then copy the
-        colors. Every palette is curated for harmony and readable contrast.
+        Pick a hand-tuned palette and preview it live with a contrast check, then copy.
       </p>
     </div>
 
     <!-- Site-type selector — segmented chips, same language as the navbar -->
-    <div class="glass-track mt-6 w-fit max-w-full rounded-full p-1.5 flex gap-1 overflow-x-auto nav-scroll">
+    <div class="glass-track mt-4 w-fit max-w-full rounded-full p-1.5 flex gap-1 overflow-x-auto nav-scroll">
       <button
         v-for="c in presets"
         :key="c.id"
@@ -118,7 +117,7 @@ watch(activePalette, (p) => {
     </div>
 
     <!-- Content: palette cards + sticky preview -->
-    <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-6 lg:items-start mt-8">
+    <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-6 lg:items-start mt-6">
       <!-- Palettes -->
       <div v-if="activePreset" class="grid grid-cols-1 xl:grid-cols-2 gap-3">
         <div
@@ -170,25 +169,25 @@ watch(activePalette, (p) => {
               Copy CSS
             </button>
           </div>
-          <p class="text-[11px] text-[#71717A] leading-relaxed mb-3">{{ activePalette.desc }}</p>
+          <p class="text-[11px] text-[#71717A] leading-relaxed mb-2.5">{{ activePalette.desc }}</p>
 
           <PreviewMockup :key="activePalette.name" :palette="activePalette" class="fade-in" />
 
           <!-- Colors -->
-          <div class="mt-3">
-            <div class="flex items-baseline justify-between mb-1">
+          <div class="mt-2.5">
+            <div class="flex items-baseline justify-between mb-0.5">
               <h4 class="text-[12px] font-semibold text-[#18181B]">Colors</h4>
               <span class="text-[10px] text-[#A1A1AA]">Click to copy</span>
             </div>
-            <div class="grid grid-cols-2 gap-x-3 gap-y-0.5">
+            <div class="grid grid-cols-2 gap-x-2 gap-y-0">
               <div
                 v-for="[role, hex] in activePalette.colors"
                 :key="role"
                 @click="copy(hex)"
-                class="cursor-pointer flex items-center gap-1.5 px-2 py-1.5 rounded-md hover:bg-[#F4F4F5] transition-colors touch-manipulation min-w-0"
+                class="cursor-pointer flex items-center gap-1.5 px-1.5 py-1 rounded-md hover:bg-[#F4F4F5] transition-colors touch-manipulation min-w-0"
                 :title="`Copy ${role} ${hex}`"
               >
-                <div class="w-5 h-5 rounded-md border border-black/5 shrink-0" :style="{ background: hex }"></div>
+                <div class="w-[18px] h-[18px] rounded-md border border-black/5 shrink-0" :style="{ background: hex }"></div>
                 <span class="text-[10px] font-medium text-[#27272A] truncate min-w-0 flex-1">{{ role }}</span>
                 <span class="text-[9px] font-mono text-[#71717A] tabular-nums shrink-0">{{ hex }}</span>
               </div>
@@ -196,16 +195,16 @@ watch(activePalette, (p) => {
           </div>
 
           <!-- Contrast check -->
-          <div class="mt-3 pt-3 border-t border-[#F4F4F5]">
-            <div class="flex items-baseline justify-between mb-1.5">
+          <div class="mt-2 pt-2 border-t border-[#F4F4F5]">
+            <div class="flex items-baseline justify-between mb-1">
               <h4 class="text-[12px] font-semibold text-[#18181B]">Contrast check</h4>
               <span class="text-[10px] text-[#A1A1AA]">WCAG AA · 4.5:1</span>
             </div>
-            <div class="space-y-1">
+            <div class="space-y-0.5">
               <div
                 v-for="row in contrastRows"
                 :key="row.label"
-                class="flex items-center gap-2 px-2 py-1.5 rounded-md border border-[#E4E4E7]"
+                class="flex items-center gap-2 px-1.5 py-1 rounded-md border border-[#E4E4E7]"
               >
                 <div class="w-4 h-4 rounded border border-black/5 shrink-0" :style="{ background: row.fg }"></div>
                 <span class="text-[10px] font-medium text-[#18181B] truncate min-w-0 flex-1">{{ row.label }}</span>
