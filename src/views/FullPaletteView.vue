@@ -54,6 +54,8 @@ const navEl = ref<HTMLElement | null>(null)
 // keeps the layout from jumping. ----
 const barFixed = ref(false)
 const barHeight = ref(0)
+const barLeft = ref(0)
+const barWidth = ref(0)
 let naturalTop = 0
 let fixThreshold = 0
 
@@ -67,10 +69,23 @@ function checkBarPosition() {
     fixThreshold = naturalTop - navH - 12
     if (window.scrollY > fixThreshold) {
       barHeight.value = bar.offsetHeight
+      // Capture the static geometry: left-1/2 -translate-x-1/2 would re-center
+      // the bar in the viewport and make it jump horizontally on scroll.
+      const r = bar.getBoundingClientRect()
+      barLeft.value = r.left
+      barWidth.value = r.width
       barFixed.value = true
     }
   } else if (window.scrollY <= fixThreshold) {
     barFixed.value = false
+  }
+}
+
+function onBarResize() {
+  // Breakpoint switch / window resize while fixed → re-anchor from the static spot.
+  if (barFixed.value) {
+    barFixed.value = false
+    requestAnimationFrame(checkBarPosition)
   }
 }
 
@@ -131,9 +146,13 @@ function onScroll() {
 }
 onMounted(() => {
   window.addEventListener('scroll', onScroll, { passive: true })
+  window.addEventListener('resize', onBarResize)
   checkBarPosition()
 })
-onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('resize', onBarResize)
+})
 watch(
   () => props.active,
   (on) => {
@@ -184,18 +203,15 @@ watch(
       </div>
     </div>
 
-    <!-- Sticky filters: categories + shade levels. The STICKY lives on an outer
-         wrapper and the glass/blur on an inner element — backdrop-filter on the
-         sticky element itself fails to blur scrolling content in Chrome
-         (navbar does the same and blurs fine). -->
+    <!-- Filters: categories + shade levels. The bar is static at the top of the
+         page and switches to position:fixed on scroll (Chromium fails to blur
+         content behind a backdrop-filter element whose sticky top ≠ 0). The
+         fixed geometry is captured from the static spot so the bar never jumps. -->
     <div
       ref="navEl"
       class="z-30 mt-6 mb-6 w-fit max-w-full"
-      :class="
-        barFixed
-          ? 'fixed top-[calc(var(--nav-h,0px)_+_12px)] left-1/2 -translate-x-1/2 !mt-0 !mb-0'
-          : ''
-      "
+      :class="barFixed ? 'fixed top-[calc(var(--nav-h,0px)_+_12px)] !mt-0 !mb-0' : ''"
+      :style="barFixed ? { left: barLeft + 'px', width: barWidth + 'px' } : undefined"
     >
       <div class="glass-solid rounded-2xl">
         <div class="flex items-center gap-1.5 p-1.5 overflow-x-auto nav-scroll snap-x snap-proximity">
