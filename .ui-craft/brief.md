@@ -20,7 +20,7 @@ A curated color library website for designers and developers: search 245 swatche
 - `.glass-field` — ALL search inputs identical: rounded-full, blur(16px) saturate(160%), inset highlight; focus = brightened bg + black ring
 - `.glass-track` — segmented-control tracks (nav, rail hover)
 - **All classes use `:where()` (zero specificity)** so Tailwind utilities (ring-2, border-[#18181B]) can override glass chrome — verified: selected cards show the ring on top of glass
-- Dark mode handled INSIDE the glass classes; the zinc token mapping in dark.css covers the remaining flat text/borders
+- Dark mode handled INSIDE the glass classes; the zinc token mapping in dark.css covers the remaining flat text/borders. **Every glass variant needs its own `.dark :where(.glass*)` rule — `.glass` was once missed → white cards on dark** (fixed 2026-08-27, incl. `border-[#18181B]` mapping for the picker's active card)
 - Interactive controls = rounded-full; surfaces/cards = rounded-2xl (16px); content tiles (swatches) stay solid for clarity
 - Glass works because the ambient glow sits behind — surfaces frost the color haze
 
