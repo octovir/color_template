@@ -118,7 +118,7 @@ watch(activePalette, (p) => {
     </div>
 
     <!-- Content: palette cards + sticky preview -->
-    <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-6 lg:items-start mt-8">
+    <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-6 lg:items-start mt-8">
       <!-- Palettes -->
       <div v-if="activePreset" class="grid grid-cols-1 xl:grid-cols-2 gap-3">
         <div
@@ -170,12 +170,12 @@ watch(activePalette, (p) => {
               Copy CSS
             </button>
           </div>
-          <p class="text-[11px] text-[#71717A] leading-relaxed mb-3.5">{{ activePalette.desc }}</p>
+          <p class="text-[11px] text-[#71717A] leading-relaxed mb-3">{{ activePalette.desc }}</p>
 
           <PreviewMockup :key="activePalette.name" :palette="activePalette" class="fade-in" />
 
           <!-- Colors -->
-          <div class="mt-3.5">
+          <div class="mt-3">
             <div class="flex items-baseline justify-between mb-1">
               <h4 class="text-[12px] font-semibold text-[#18181B]">Colors</h4>
               <span class="text-[10px] text-[#A1A1AA]">Click to copy</span>
@@ -196,7 +196,7 @@ watch(activePalette, (p) => {
           </div>
 
           <!-- Contrast check -->
-          <div class="mt-3.5 pt-3 border-t border-[#F4F4F5]">
+          <div class="mt-3 pt-3 border-t border-[#F4F4F5]">
             <div class="flex items-baseline justify-between mb-1.5">
               <h4 class="text-[12px] font-semibold text-[#18181B]">Contrast check</h4>
               <span class="text-[10px] text-[#A1A1AA]">WCAG AA · 4.5:1</span>
