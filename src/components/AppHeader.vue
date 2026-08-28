@@ -8,7 +8,7 @@ defineProps<{ activeTab: TabId }>()
 const emit = defineEmits<{ 'switch-tab': [tab: TabId]; 'focus-search': [] }>()
 
 const { dark, toggleTheme } = useTheme()
-const { focusGlowStyle, glowPick, glowClear } = useFocusGlow()
+const { glowPick, glowClear, haloStyle } = useFocusGlow()
 
 const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
   { id: 'home', label: 'Overview', icon: Home },
@@ -56,13 +56,18 @@ const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
 
         <!-- Actions -->
         <div class="flex items-center gap-1 shrink-0">
-          <button
-            @click="emit('focus-search')"
-            class="glass-field hidden sm:flex items-center gap-2 h-9 px-3 rounded-full w-44 focus:ring-0 focus:outline-none"
-            :style="focusGlowStyle"
-            @focus="glowPick"
-            @blur="glowClear"
-          >
+          <div class="relative hidden sm:block">
+            <span
+              aria-hidden="true"
+              class="absolute left-0 right-0 top-1/2 h-full -translate-y-1/2 rounded-full blur-2xl pointer-events-none transition-opacity duration-300"
+              :style="haloStyle(0.5)"
+            ></span>
+            <button
+              @click="emit('focus-search')"
+              class="glass-field flex items-center gap-2 h-9 px-3 rounded-full w-44 focus:outline-none"
+              @focus="glowPick"
+              @blur="glowClear"
+            >
             <Search class="w-3.5 h-3.5 shrink-0 text-[#A1A1AA]" />
             <span class="text-[12px] text-[#A1A1AA]">Search colors</span>
             <kbd
@@ -71,6 +76,7 @@ const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
               ⌘K
             </kbd>
           </button>
+          </div>
           <button
             @click="emit('focus-search')"
             title="Search colors (⌘K)"

@@ -9,7 +9,7 @@ import { Search, SearchX, X } from 'lucide-vue-next'
 
 const props = defineProps<{ library: ColorLibrary; active: boolean; presetQuery?: string | null }>()
 const { copy, copyText } = useClipboard()
-const { focusGlowStyle, glowPick, glowClear } = useFocusGlow()
+const { glowPick, glowClear, haloStyle } = useFocusGlow()
 
 const query = ref('')
 
@@ -180,6 +180,11 @@ watch(
       </div>
       <div class="flex items-center gap-2 w-full lg:w-auto">
         <div class="relative flex-1 lg:w-80">
+          <span
+            aria-hidden="true"
+            class="absolute left-0 right-0 top-1/2 h-full -translate-y-1/2 rounded-full blur-2xl pointer-events-none transition-opacity duration-300"
+            :style="haloStyle(0.5)"
+          ></span>
           <Search class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#A1A1AA] pointer-events-none" />
           <input
             id="palette-search"
@@ -187,7 +192,6 @@ watch(
             type="text"
             placeholder="Search Thai or English… e.g. สีฟ้าเข้ม, dark teal, 950"
             class="glass-field h-11 w-full rounded-full pl-9 pr-8 text-[13px] text-[#18181B] outline-none"
-            :style="focusGlowStyle"
             @focus="glowPick"
             @blur="glowClear"
           />

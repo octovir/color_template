@@ -11,7 +11,7 @@ const props = defineProps<{ library: ColorLibrary; presets: PalettePreset[] }>()
 const emit = defineEmits<{ navigate: [tab: TabId]; search: [query: string] }>()
 
 const { copy } = useClipboard()
-const { focusGlowStyle, glowPick, glowClear } = useFocusGlow()
+const { glowPick, glowClear, haloStyle } = useFocusGlow()
 
 const allSwatches = computed(() => flattenSwatches(props.library.categories, props.library.chartColors))
 const totalColors = computed(() => allSwatches.value.length)
@@ -66,6 +66,11 @@ function goSearch() {
 
         <!-- Big search -->
         <div class="relative mt-6 sm:mt-8 max-w-xl">
+          <span
+            aria-hidden="true"
+            class="absolute left-0 right-0 top-1/2 h-full -translate-y-1/2 rounded-full blur-2xl pointer-events-none transition-opacity duration-300"
+            :style="haloStyle()"
+          ></span>
           <Search
             class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-[#A1A1AA] pointer-events-none"
           />
@@ -75,7 +80,6 @@ function goSearch() {
             placeholder="Search Thai or English… e.g. สีฟ้าเข้ม, dark teal, 950"
             @keydown.enter="goSearch"
             class="glass-field h-12 sm:h-14 w-full rounded-full pl-11 sm:pl-12 pr-16 text-[13px] sm:text-[14px] text-[#18181B] outline-none"
-            :style="focusGlowStyle"
             @focus="glowPick"
             @blur="glowClear"
           />
