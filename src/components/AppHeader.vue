@@ -56,7 +56,7 @@ const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
         <div class="flex items-center gap-1 shrink-0">
           <button
             @click="emit('focus-search')"
-            class="glass-field hidden sm:flex items-center gap-2 h-9 px-3 rounded-full w-44 focus:outline-none focus:ring-2 focus:ring-[#18181B]/10"
+            class="glass-field hidden sm:flex items-center gap-2 h-9 px-3 rounded-full w-44 outline-none"
           >
             <Search class="w-3.5 h-3.5 shrink-0 text-[#A1A1AA]" />
             <span class="text-[12px] text-[#A1A1AA]">Search colors</span>

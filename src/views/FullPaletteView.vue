@@ -184,7 +184,7 @@ watch(
             v-model="query"
             type="text"
             placeholder="Search Thai or English… e.g. สีฟ้าเข้ม, dark teal, 950"
-            class="glass-field h-11 w-full rounded-full pl-9 pr-8 text-[13px] text-[#18181B] outline-none focus:ring-2 focus:ring-[#18181B]/10"
+            class="glass-field h-11 w-full rounded-full pl-9 pr-8 text-[13px] text-[#18181B] outline-none"
           />
           <button
             v-if="query"

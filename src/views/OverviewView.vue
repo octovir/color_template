@@ -72,7 +72,7 @@ function goSearch() {
             type="text"
             placeholder="Search Thai or English… e.g. สีฟ้าเข้ม, dark teal, 950"
             @keydown.enter="goSearch"
-            class="glass-field h-12 sm:h-14 w-full rounded-full pl-11 sm:pl-12 pr-16 text-[13px] sm:text-[14px] text-[#18181B] outline-none focus:ring-2 focus:ring-[#18181B]/10"
+            class="glass-field h-12 sm:h-14 w-full rounded-full pl-11 sm:pl-12 pr-16 text-[13px] sm:text-[14px] text-[#18181B] outline-none"
           />
           <kbd
             class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center px-2 h-6 rounded-md border border-[#E4E4E7] bg-white text-[10px] font-semibold text-[#71717A]"
