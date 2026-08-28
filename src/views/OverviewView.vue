@@ -65,10 +65,10 @@ function goSearch() {
         </p>
 
         <!-- Big search -->
-        <div class="relative mt-6 sm:mt-8 max-w-xl">
+        <div class="relative mt-6 sm:mt-8 max-w-xl overflow-visible">
           <span
             aria-hidden="true"
-            class="absolute left-0 right-0 top-1/2 h-full -translate-y-1/2 rounded-full blur-2xl pointer-events-none transition-opacity duration-300"
+            class="absolute left-1/2 top-1/2 w-[140%] h-[420%] -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none transition-opacity duration-500"
             :style="haloStyle()"
           ></span>
           <Search

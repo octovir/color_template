@@ -56,11 +56,11 @@ const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
 
         <!-- Actions -->
         <div class="flex items-center gap-1 shrink-0">
-          <div class="relative hidden sm:block">
+          <div class="relative hidden sm:block overflow-visible">
             <span
               aria-hidden="true"
-              class="absolute left-0 right-0 top-1/2 h-full -translate-y-1/2 rounded-full blur-2xl pointer-events-none transition-opacity duration-300"
-              :style="haloStyle(0.5)"
+              class="absolute left-1/2 top-1/2 w-[160%] h-[480%] -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none transition-opacity duration-500"
+              :style="haloStyle()"
             ></span>
             <button
               @click="emit('focus-search')"

@@ -179,11 +179,11 @@ watch(
         </p>
       </div>
       <div class="flex items-center gap-2 w-full lg:w-auto">
-        <div class="relative flex-1 lg:w-80">
+        <div class="relative flex-1 lg:w-80 overflow-visible">
           <span
             aria-hidden="true"
-            class="absolute left-0 right-0 top-1/2 h-full -translate-y-1/2 rounded-full blur-2xl pointer-events-none transition-opacity duration-300"
-            :style="haloStyle(0.5)"
+            class="absolute left-1/2 top-1/2 w-[150%] h-[440%] -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none transition-opacity duration-500"
+            :style="haloStyle()"
           ></span>
           <Search class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#A1A1AA] pointer-events-none" />
           <input
