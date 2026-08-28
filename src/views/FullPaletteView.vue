@@ -3,11 +3,13 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import type { ColorLibrary } from '../types'
 import { searchLibrary } from '../composables/useSearch'
 import { useClipboard } from '../composables/useClipboard'
+import { useFocusGlow } from '../composables/useFocusGlow'
 import { bestTextOn } from '../lib/color'
 import { Search, SearchX, X } from 'lucide-vue-next'
 
 const props = defineProps<{ library: ColorLibrary; active: boolean; presetQuery?: string | null }>()
 const { copy, copyText } = useClipboard()
+const { focusGlowStyle, glowPick, glowClear } = useFocusGlow()
 
 const query = ref('')
 
@@ -184,7 +186,10 @@ watch(
             v-model="query"
             type="text"
             placeholder="Search Thai or English… e.g. สีฟ้าเข้ม, dark teal, 950"
-            class="glass-field h-11 w-full rounded-full pl-9 pr-8 text-[13px] text-[#18181B] outline-none focus:ring-2 focus:ring-[#18181B]/10"
+            class="glass-field h-11 w-full rounded-full pl-9 pr-8 text-[13px] text-[#18181B] outline-none"
+            :style="focusGlowStyle"
+            @focus="glowPick"
+            @blur="glowClear"
           />
           <button
             v-if="query"
