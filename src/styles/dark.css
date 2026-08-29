@@ -51,8 +51,6 @@
 .dark [class~="ring-[#18181B]/15"] { --tw-ring-color: rgba(250, 250, 250, 0.25); }
 .dark [class~="divide-[#E4E4E7]"] > * { border-color: #27272A; }
 
-/* Brand logo — flips the tile + ink bars for the dark theme (readable on the
-   dark glass header). Accent bar stays burnt-orange in both modes. */
+/* Brand logo — flips the neutral tile for the dark theme (colored bars stay
+   animated; the tile is the contrast substrate). Accent wordmark is current hue. */
 .dark .logo-tile { background: #FAFAFA; box-shadow: inset 0 1px 0 rgba(9, 9, 11, 0.08); }
-.dark .logo-tile .bar-ink { fill: #18181B; }
-.dark .logo-tile .bar-ink-2 { fill: rgba(24, 24, 27, 0.5); }
