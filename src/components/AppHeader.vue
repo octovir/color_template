@@ -2,11 +2,16 @@
 import { useTheme } from '../composables/useTheme'
 import type { TabId } from '../types'
 import { Home, Moon, Palette, Search, Sun, Wand2, type LucideIcon } from 'lucide-vue-next'
+import AppLogo from './AppLogo.vue'
 
 defineProps<{ activeTab: TabId }>()
 const emit = defineEmits<{ 'switch-tab': [tab: TabId]; 'focus-search': [] }>()
 
 const { dark, toggleTheme } = useTheme()
+
+function brandHome() {
+  emit('switch-tab', 'home')
+}
 
 const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
   { id: 'home', label: 'Overview', icon: Home },
@@ -20,19 +25,7 @@ const tabs: { id: TabId; label: string; icon: LucideIcon }[] = [
     <div class="glass-strong max-w-[1200px] mx-auto rounded-2xl">
       <div class="flex items-center justify-between gap-3 px-3 sm:px-4 h-14 sm:h-16">
         <!-- Brand -->
-        <a
-          href="#"
-          @click.prevent="emit('switch-tab', 'home')"
-          class="flex items-center gap-2.5 min-w-0 group"
-          title="Back to overview"
-        >
-          <div
-            class="w-8 h-8 rounded-lg bg-[#18181B] text-[#FAFAFA] flex items-center justify-center transition-transform duration-150 group-active:scale-95"
-          >
-            <Palette class="w-4 h-4" />
-          </div>
-          <span class="text-[15px] font-semibold tracking-tight text-[#18181B] whitespace-nowrap">Color System</span>
-        </a>
+        <AppLogo @go-home="brandHome" />
 
         <!-- Desktop segmented nav -->
         <nav class="hidden md:flex items-center gap-1 p-1 rounded-full glass-track">
